@@ -1,6 +1,6 @@
 # Deep Spectral Preconditioning via Rectified, Variance-Bounded Matrix Orthogonalization
 
-**Authors:** Richard Christopher, Claude (Anthropic)
+**Authors:** Richard Christopher
 **Version:** 1.0 (2026-05-17)
 **Reference implementation:** `muogi.py` and `ramuogi.py` in this repository.
 

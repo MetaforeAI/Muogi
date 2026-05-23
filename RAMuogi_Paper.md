@@ -40,6 +40,26 @@ Within the first several hundred parameter updates, the moving-average variance 
 
 Muogi addresses (1.1) through a unified pipeline that injects coordinate-wise variance information into the Newton-Schulz iteration under a bounded spread constraint, with a fallback chain that catches numerical failures without halting training. RAMuogi extends Muogi with a RAdam-style rectification gate that solves (1.2) by suspending spectral computation until variance estimates are statistically trustworthy. Together, the algorithms reconcile coordinate-wise variance adaptivity with global spectral orthogonalization under a documented safety contract.
 
+### 1.4 Lineage
+
+This paper is one of three (Muogi/RAMuogi, RACASO, Liger) describing optimizers developed sequentially against distinct production failure modes in the Morpheus architecture. The version history (with logs):
+
+1. **SOAP** worked on the X-organ (cross-branch interaction surface) until a branching-norm aggregation introduced second-order coupling that broke its Kronecker factorization assumption.
+
+2. **Muogi v1** (`logs/v17_2_muogi/`) was the response: Yogi-injected NS5 with a relative-threshold spread cap. Stable on the immediate problem but its own pathologies surfaced.
+
+3. **Muogi v2** (`logs/v17_3_muogi_v2_attempt1..4/`): four attempts iterating on the safety chain. The four-attempt sequence is the documentation that the chain matters — each NaN-or-divergence in earlier attempts surfaced a specific class of failure that became one of L1, L2, L3. Attempt 4 reached a stable configuration (`grad[x] ≈ 2.62`).
+
+4. **RAMuogi** (`logs/v17_4_ramuogi/`) added the L4 RAdam cold-start gate on top of Muogi v2. Achieved better gradient health (`grad[x] ≈ 2.50`) and was the first version where the four-layer safety chain was complete.
+
+5. **RACASO** (`logs/v17_5_racaso/` + 3 attempts) was the next iteration after RAMuogi: rotated-basis Adam + Hutchinson HVP + Sophia clipping. Inherited RAMuogi's L4 gate, added the L5 absorb-and-continue surface for the DivBackward0 class. Attempts 1 and 3 NaN'd; attempt 2 succeeded (`grad[x] ≈ 4.62`). The NaN signatures were the same branching-norm coupling pathology that originally broke SOAP — the safety chain we built in Muogi/RAMuogi was the only thing that made the iteration tractable.
+
+6. Once RACASO's **L5 absorb** cleared the DivBackward0 hazard on the X-organ, we realized the path was clean enough to *return to SOAP* — the L5 was a general pattern for surviving the divergent-2nd-derivative regime that had broken SOAP originally. **SOAP + Shampoo** with the absorb in place outperforms RACASO at the cost we care about. Shampoo's Kronecker maintenance is more efficient than RACASO's full eigendecomp + HVP refresh; the `shampoo[x]` production log (`logs/neo*/`) shows `eig_fallback=0` consistently. Muogi's surviving conceptual contributions are the per-row Yogi injection inside NS5 and the layered safety chain — both of which carried through to RACASO and to the eventual SOAP+Shampoo configuration that beat RACASO on its original target.
+
+7. **Liger** (`logs/neo_v2.2/`) was born from a different failure mode on the RAH organ. RAMuogi's `ns5_ok=0` diagnostic on RAH showed that RAH's gradients arrive *already* well-conditioned from upstream RMSNorm — RAMuogi's NS5 was finding nothing to orthogonalize and was 100% wasted compute. RAH needed bounded direction on matrices without preconditioning (Lion) and burst-safe variance handling on scalars (Yogi). The dispatch-by-dimensionality decision RAMuogi already encoded survived; only the matrix-side rule changed.
+
+The four optimizers do not compete; they solve different problem classes. Muogi/RAMuogi pioneered the four-layer safety chain that RACASO inherited and L5-extended; SOAP+Shampoo eventually beat RACASO on X (and Muogi's per-row Yogi injection is the conceptual ancestor of the variance signal that SOAP+Shampoo+Yogi composition uses well); Liger is the right tool for RAH where preconditioning is wasted compute. We publish all four because the failure-and-response sequence is the actual scientific record. See §9.9 for measured numbers from the production traces.
+
 ------------------------------
 
 ## 2. The Muogi Optimizer

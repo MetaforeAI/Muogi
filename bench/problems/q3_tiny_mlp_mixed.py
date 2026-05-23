@@ -57,12 +57,12 @@ class Q3TinyMlpMixed(BenchProblem):
     _OUT_DIM = 4
     _BATCH_SIZE = 32
 
-    def __init__(self, seed: int) -> None:
-        super().__init__(seed)
+    def __init__(self, seed: int, device: str = "cpu") -> None:
+        super().__init__(seed, device=device)
         # Fixed input batch (32, 10).
         self._x = torch.randn(
             (self._BATCH_SIZE, self._IN_DIM), generator=self._generator
-        )
+        ).to(self.device)
         # Fixed teacher: small linear projection + bias + noise.
         a_true = 0.5 * torch.randn(
             (self._OUT_DIM, self._IN_DIM), generator=self._generator
@@ -73,20 +73,20 @@ class Q3TinyMlpMixed(BenchProblem):
         noise = 0.05 * torch.randn(
             (self._BATCH_SIZE, self._OUT_DIM), generator=self._generator
         )
-        self._y = self._x @ a_true.T + b_true + noise
+        self._y = (self._x @ a_true.to(self.device).T + b_true.to(self.device) + noise.to(self.device))
 
     def init_params(self) -> List[torch.Tensor]:
         # Xavier-ish small inits via the seeded generator.
         scale1 = (1.0 / self._IN_DIM) ** 0.5
         scale2 = (1.0 / self._HIDDEN_DIM) ** 0.5
-        w1 = scale1 * torch.randn(
+        w1 = (scale1 * torch.randn(
             (self._HIDDEN_DIM, self._IN_DIM), generator=self._generator
-        )
-        b1 = torch.zeros((self._HIDDEN_DIM,))
-        w2 = scale2 * torch.randn(
+        )).to(self.device)
+        b1 = torch.zeros((self._HIDDEN_DIM,), device=self.device)
+        w2 = (scale2 * torch.randn(
             (self._OUT_DIM, self._HIDDEN_DIM), generator=self._generator
-        )
-        b2 = torch.zeros((self._OUT_DIM,))
+        )).to(self.device)
+        b2 = torch.zeros((self._OUT_DIM,), device=self.device)
         for t in (w1, b1, w2, b2):
             t.requires_grad_(True)
         return [w1, b1, w2, b2]

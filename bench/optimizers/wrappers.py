@@ -4,31 +4,40 @@
 ``torch.optim.Optimizer``. All hyperparameters other than the learning
 rate are pinned here.
 
-Canonical configs (the single source of truth — see ``README.md``):
+Every optimizer is vendored as a standalone source file in this
+``bench/optimizers/`` directory — no sibling-repo imports, no sys.path
+gymnastics. This includes the optimizers from our own sibling research
+projects (Liger, RACASO): we treat them exactly like we treat Lion and
+Yogi — copy the source file, document the upstream commit at the top
+of the copy, build via a normal Python import.
+
+Canonical configs (single source of truth — see ``README.md``):
 
     adam              : torch.optim.Adam(lr, betas=(0.9, 0.999), eps=1e-8)
     adamw             : torch.optim.AdamW(lr, betas=(0.9, 0.999), eps=1e-8,
                                           weight_decay=0.01)
     yogi              : Yogi(lr, betas=(0.9, 0.999), eps=1e-3,
                              initial_accumulator=1e-6, weight_decay=0.0)
-                        — vendored from morpheus/training/optimizers/yogi.py
+                        — bench/optimizers/yogi.py (Zaheer et al. 2018)
+    lion              : Lion(lr, betas=(0.9, 0.99), weight_decay=0.0)
+                        — bench/optimizers/lion.py (Chen et al. 2023)
+    naive_yogi_muon   : NaiveYogiMuon(lr, betas=(0.9, 0.999), eps_yogi=1e-3,
+                                      ns5_iters=5)
+                        — bench/optimizers/naive_yogi_muon.py
+                        — the ANTI-BASELINE for Muogi paper claim M1
+    muogi             : Muogi(lr, default Muogi config)
+                        — bench/optimizers/muogi.py (this repo's optimizer)
+    ramuogi           : RAMuogi(lr, default RAMuogi config)
+                        — bench/optimizers/ramuogi.py (this repo's optimizer)
+    liger             : Liger(lr, betas=(0.9, 0.99), eps_yogi=1e-3, wd=0.0)
+                        — bench/optimizers/liger.py (sibling repo, vendored)
+    racaso            : RACASO(lr, default RACASO config)
+                        — bench/optimizers/racaso.py (sibling repo, vendored)
     muon              : NotImplementedError until vendored from the
                         Keller Jordan reference implementation
-    lion              : NotImplementedError until vendored / pip-installed
     sophia            : NotImplementedError until vendored from the
                         official Sophia repo
     soap              : NotImplementedError until vendored from Vyas et al.
-    naive_yogi_muon   : NaiveYogiMuon(lr, betas=(0.9, 0.999), eps_yogi=1e-3,
-                                      ns5_iters=5)
-                        — the ANTI-BASELINE for Muogi paper claim M1
-    muogi             : Muogi(lr, default Muogi config)
-                        — imported from Muogi/muogi.py
-    ramuogi           : RAMuogi(lr, default RAMuogi config)
-                        — imported from Muogi/ramuogi.py
-
-For Phase 1, baselines that need external code raise ``NotImplementedError``
-with a pointer to ``bench/optimizers/README.md``. Phase 2 will vendor or
-pip-install each missing baseline.
 """
 
 from __future__ import annotations
@@ -49,6 +58,8 @@ KNOWN_OPTIMIZERS = (
     "naive_yogi_muon",
     "muogi",
     "ramuogi",
+    "liger",
+    "racaso",
 )
 
 
@@ -56,8 +67,11 @@ def _vendor_pointer(opt_name: str) -> str:
     return (
         f"{opt_name} is not vendored yet; "
         "see bench/optimizers/README.md for the canonical source and "
-        "pinned version to drop into this wrapper before Phase 3 runs."
+        "pinned version to drop into this wrapper before benchmarks run."
     )
+
+
+# ── Constructors ─────────────────────────────────────────────────────────
 
 
 def _build_adam(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
@@ -71,8 +85,6 @@ def _build_adamw(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer
 
 
 def _build_yogi(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
-    # Vendored Yogi — copy lives at bench/optimizers/yogi.py to keep the
-    # bench self-contained without requiring Morpheus on sys.path.
     from bench.optimizers.yogi import Yogi
 
     return Yogi(
@@ -83,6 +95,12 @@ def _build_yogi(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
         initial_accumulator=1e-6,
         weight_decay=0.0,
     )
+
+
+def _build_lion(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
+    from bench.optimizers.lion import Lion
+
+    return Lion(params, lr=lr, betas=(0.9, 0.99), weight_decay=0.0)
 
 
 def _build_naive_yogi_muon(
@@ -100,29 +118,27 @@ def _build_naive_yogi_muon(
 
 
 def _build_muogi(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
-    try:
-        from muogi import Muogi  # type: ignore[import-not-found]
-    except ImportError as exc:
-        raise NotImplementedError(
-            "muogi.Muogi is not importable from this environment; "
-            "ensure Muogi/ is on sys.path before constructing muogi. "
-            f"Original error: {exc}"
-        ) from exc
+    from bench.optimizers.muogi import Muogi
 
     return Muogi(params, lr=lr)
 
 
 def _build_ramuogi(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
-    try:
-        from ramuogi import RAMuogi  # type: ignore[import-not-found]
-    except ImportError as exc:
-        raise NotImplementedError(
-            "ramuogi.RAMuogi is not importable from this environment; "
-            "ensure Muogi/ is on sys.path before constructing ramuogi. "
-            f"Original error: {exc}"
-        ) from exc
+    from bench.optimizers.ramuogi import RAMuogi
 
     return RAMuogi(params, lr=lr)
+
+
+def _build_liger(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
+    from bench.optimizers.liger import Liger
+
+    return Liger(params, lr=lr, betas=(0.9, 0.99), eps_yogi=1e-3, weight_decay=0.0)
+
+
+def _build_racaso(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
+    from bench.optimizers.racaso import RACASO
+
+    return RACASO(params, lr=lr)
 
 
 def build_optimizer(
@@ -141,7 +157,7 @@ def build_optimizer(
     Raises:
         ValueError: if ``name`` is not in ``KNOWN_OPTIMIZERS``.
         NotImplementedError: for baselines whose implementation has not
-            been vendored / installed yet (see ``README.md``).
+            been vendored yet (muon / sophia / soap).
     """
     if name not in KNOWN_OPTIMIZERS:
         raise ValueError(
@@ -153,25 +169,20 @@ def build_optimizer(
     if not params:
         raise ValueError("params must be a non-empty list of tensors")
 
-    if name == "adam":
-        return _build_adam(params, lr)
-    if name == "adamw":
-        return _build_adamw(params, lr)
-    if name == "yogi":
-        return _build_yogi(params, lr)
-    if name == "muon":
-        raise NotImplementedError(_vendor_pointer("muon"))
-    if name == "lion":
-        raise NotImplementedError(_vendor_pointer("lion"))
-    if name == "sophia":
-        raise NotImplementedError(_vendor_pointer("sophia"))
-    if name == "soap":
-        raise NotImplementedError(_vendor_pointer("soap"))
-    if name == "naive_yogi_muon":
-        return _build_naive_yogi_muon(params, lr)
-    if name == "muogi":
-        return _build_muogi(params, lr)
-    if name == "ramuogi":
-        return _build_ramuogi(params, lr)
+    builders = {
+        "adam": _build_adam,
+        "adamw": _build_adamw,
+        "yogi": _build_yogi,
+        "lion": _build_lion,
+        "naive_yogi_muon": _build_naive_yogi_muon,
+        "muogi": _build_muogi,
+        "ramuogi": _build_ramuogi,
+        "liger": _build_liger,
+        "racaso": _build_racaso,
+    }
+    if name in builders:
+        return builders[name](params, lr)
+    if name in ("muon", "sophia", "soap"):
+        raise NotImplementedError(_vendor_pointer(name))
 
     raise AssertionError(f"unreachable: optimizer {name} not dispatched")

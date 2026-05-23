@@ -19,6 +19,9 @@ from bench.problems import (
     q3_tiny_mlp_mixed,
     q4_ns5_stress,
     q5_radam_cold_start,
+    r1_cifar10_resnet18,
+    r2_charlm_shakespeare,
+    r3_nanogpt_wikitext2,
 )
 
 __all__ = [
@@ -27,4 +30,7 @@ __all__ = [
     "q3_tiny_mlp_mixed",
     "q4_ns5_stress",
     "q5_radam_cold_start",
+    "r1_cifar10_resnet18",
+    "r2_charlm_shakespeare",
+    "r3_nanogpt_wikitext2",
 ]

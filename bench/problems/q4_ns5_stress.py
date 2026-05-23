@@ -68,11 +68,11 @@ class Q4Ns5Stress(BenchProblem):
 
     _DIM = 6
 
-    def __init__(self, seed: int) -> None:
-        super().__init__(seed)
+    def __init__(self, seed: int, device: str = "cpu") -> None:
+        super().__init__(seed, device=device)
         self._target = torch.randn(
             (self._DIM, self._DIM), generator=self._generator
-        )
+        ).to(self.device)
         sqrt3 = math.sqrt(3.0)
         # Spectral-norm cycle — first entry sits just outside the
         # convergence radius, the rest are deep outside.
@@ -87,7 +87,7 @@ class Q4Ns5Stress(BenchProblem):
     def init_params(self) -> List[torch.Tensor]:
         w0 = torch.randn(
             (self._DIM, self._DIM), generator=self._generator
-        )
+        ).to(self.device)
         w0.requires_grad_(True)
         return [w0]
 

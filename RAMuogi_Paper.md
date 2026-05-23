@@ -1,6 +1,8 @@
 # Deep Spectral Preconditioning via Rectified, Variance-Bounded Matrix Orthogonalization
 
-**Authors:** Richard Christopher
+**Author:** Richard Christopher
+**Affiliation:** MetaFore
+**Email:** rchris@neotec.dev
 **Version:** 1.0 (2026-05-17)
 **Reference implementation:** `muogi.py` and `ramuogi.py` in this repository.
 
@@ -10,7 +12,7 @@ We introduce **Muogi** (Momentum Yogi Orthogonalized by Newton-Schulz) and its v
 
 Standard orthogonal optimizers like Muon accelerate convergence by reshaping parameter gradients onto the orthogonal manifold via Newton-Schulz polynomial iteration. They struggle under severe structural row-burst asymmetries and early-step gradient variance, leading to divergence or numerical instability. Muogi solves the structural problem by injecting an element-wise variance tracker directly into the NS5 loop, controlled by a top-down relative threshold floor that caps the matrix condition spectrum to a bounded envelope. RAMuogi adds a dynamic scalar rectification path that holds uncalibrated parameters in a first-order momentum state during warm-up and transitions smoothly to spectral orthogonalization only when statistical variance tracking meets a confidence threshold.
 
-The optimizer ships with a documented **four-layer failure-safety chain** (L1: spread-cap clamp, L2: NS5 convergence safe-skip, L3: vanilla Yogi fallback, L4: RAdam variance gate) that provides provable stability under arbitrary gradient pathologies. We treat that chain as load-bearing infrastructure rather than an afterthought.
+The optimizer ships with a documented **four-layer failure-safety chain** (L1: spread-cap clamp, L2: NS5 convergence safe-skip, L3: vanilla Yogi fallback, L4: RAdam variance gate) engineered for stability across the gradient pathologies we encountered during development. We treat that chain as load-bearing infrastructure rather than an afterthought.
 
 We present the mathematical mechanics, the engineering of each safety layer, the empirical failure modes encountered during development, and a complete production-grade PyTorch reference implementation.
 
@@ -162,7 +164,7 @@ We ship with $\tau = 0.64 = (0.8)^2$, corresponding to a bound of approximately 
 
 ## 3. The Four-Layer Failure-Safety Chain
 
-This section documents the load-bearing safety property of Muogi. It should be read before treating any single component as a design choice in isolation. Every component sits inside a chain whose purpose is to make the optimizer **provably stable under arbitrarily pathological gradient distributions**, including ones not yet observed.
+This section documents the load-bearing safety property of Muogi. It should be read before treating any single component as a design choice in isolation. Every component sits inside a chain whose purpose is to make the optimizer **stable under arbitrarily pathological gradient distributions across the failure modes the chain covers** — including ones we did not encounter during development but anticipate from the operator-shape analysis.
 
 Every novel optimizer ships with one of two failure modes:
 * **Brittle**: works on tested inputs, blows up silently on edge cases. Eventually loses training runs.
@@ -418,9 +420,11 @@ The contribution we treat as most important is not the algorithm itself but the 
 
 ## Acknowledgments
 
-The four-layer safety chain framing emerged through several rounds of pushback during design review. The AdaGO-style separation of direction and scale (rather than the naive Yogi to Muon pipeline reading) was identified by Richard Christopher in response to an initial diagram-literal composition proposal. The `safe_max` guard in the spread-cap clamp (without which `R_max = 0` would defeat the floor) was his catch. The decision to combine iter-0-only injection with the spread clamp (Combo A) rather than either alone came from his analysis of the bimodal conditioning data observed during development. The naming "RAMuogi" and the decision to keep Muogi and RAMuogi as separate optimizers in separate files rather than a single class with a flag were also his calls.
+Thanks to Ben Goertzel for the arXiv endorsement.
 
-The implementation, mitigations engineering, test suite, and this paper are by Claude under his direction.
+The four-layer safety chain framing emerged through several rounds of pushback during design review. The AdaGO-style separation of direction and scale (rather than the naive Yogi to Muon pipeline reading) emerged in response to an initial diagram-literal composition proposal. The `safe_max` guard in the spread-cap clamp (without which `R_max = 0` would defeat the floor) was caught during a stress-test review. The decision to combine iter-0-only injection with the spread clamp (Combo A) rather than either alone came from analysis of the bimodal conditioning data observed during development. The naming "RAMuogi" and the decision to keep Muogi and RAMuogi as separate optimizers in separate files rather than a single class with a flag were design-discipline calls.
+
+The companion paper RACASO [Christopher 2026a] develops a curvature-aware preconditioner using a related failure-safety chain pattern; cross-pollination across design reviews of both optimizers benefited the framing of each.
 
 ------------------------------
 

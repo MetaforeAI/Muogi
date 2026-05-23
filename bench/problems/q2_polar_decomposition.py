@@ -53,8 +53,8 @@ class Q2PolarDecomposition(BenchProblem):
 
     _DIM = 6
 
-    def __init__(self, seed: int) -> None:
-        super().__init__(seed)
+    def __init__(self, seed: int, device: str = "cpu") -> None:
+        super().__init__(seed, device=device)
         # Construct U orthogonal via QR of a Gaussian.
         a = torch.randn(
             (self._DIM, self._DIM), generator=self._generator
@@ -79,12 +79,12 @@ class Q2PolarDecomposition(BenchProblem):
         h_psd = u_h @ torch.diag(lam) @ u_h.T
 
         # Target M = U H.
-        self._target = u_orth @ h_psd
+        self._target = (u_orth @ h_psd).to(self.device)
 
     def init_params(self) -> List[torch.Tensor]:
         w0 = torch.randn(
             (self._DIM, self._DIM), generator=self._generator
-        )
+        ).to(self.device)
         w0.requires_grad_(True)
         return [w0]
 

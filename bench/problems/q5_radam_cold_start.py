@@ -47,18 +47,18 @@ class Q5RAdamColdStart(BenchProblem):
 
     _DIM = 4
 
-    def __init__(self, seed: int) -> None:
-        super().__init__(seed)
+    def __init__(self, seed: int, device: str = "cpu") -> None:
+        super().__init__(seed, device=device)
         # Small target so a 100-step horizon is not absurd, but also
         # not trivially solved by a single Adam step.
-        self._target = 0.5 * torch.randn(
+        self._target = (0.5 * torch.randn(
             (self._DIM, self._DIM), generator=self._generator
-        )
+        )).to(self.device)
 
     def init_params(self) -> List[torch.Tensor]:
         w0 = torch.randn(
             (self._DIM, self._DIM), generator=self._generator
-        )
+        ).to(self.device)
         w0.requires_grad_(True)
         return [w0]
 

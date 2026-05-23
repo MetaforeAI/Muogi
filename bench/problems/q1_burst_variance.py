@@ -66,25 +66,25 @@ class Q1BurstVariance(BenchProblem):
     _BURST_MULT = 100.0
     _BURST_FRACTION = 0.20
 
-    def __init__(self, seed: int) -> None:
-        super().__init__(seed)
+    def __init__(self, seed: int, device: str = "cpu") -> None:
+        super().__init__(seed, device=device)
         # Fixed target M and a fixed element-wise burst mask, both
         # baked in at construction time so they are stable across
         # the run. Element-wise mask: ~20% of elements get the 100x
         # boost on burst steps.
         self._target = torch.randn(
             (8, 8), generator=self._generator
-        )
+        ).to(self.device)
         mask_uniform = torch.rand((8, 8), generator=self._generator)
         self._burst_mask = (mask_uniform < self._BURST_FRACTION).to(
             torch.float32
-        )
+        ).to(self.device)
         # Instance step counter — increments on every loss_and_grad call.
         self._step = 0
 
     def init_params(self) -> List[torch.Tensor]:
         # Start away from M so there is real work to do.
-        w0 = torch.randn((8, 8), generator=self._generator)
+        w0 = torch.randn((8, 8), generator=self._generator).to(self.device)
         w0.requires_grad_(True)
         return [w0]
 
@@ -102,7 +102,7 @@ class Q1BurstVariance(BenchProblem):
             loss_val = 0.5 * float((diff * diff).sum().item())
 
             # Calm step: natural grad + unit-Gaussian noise.
-            noise = torch.randn((8, 8), generator=self._generator)
+            noise = torch.randn((8, 8), generator=self._generator).to(self.device)
             grad = diff + noise
 
             # Every BURST_PERIOD-th step is a burst: multiply masked

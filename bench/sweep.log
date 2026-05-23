@@ -1,0 +1,871 @@
+[1/747] q1_burst_variance × adam × lr=0.0001 × seed=0
+[2/747] q1_burst_variance × adam × lr=0.0001 × seed=1
+[3/747] q1_burst_variance × adam × lr=0.0001 × seed=2
+[4/747] q1_burst_variance × adam × lr=0.0003 × seed=0
+[5/747] q1_burst_variance × adam × lr=0.0003 × seed=1
+[6/747] q1_burst_variance × adam × lr=0.0003 × seed=2
+[7/747] q1_burst_variance × adam × lr=0.001 × seed=0
+[8/747] q1_burst_variance × adam × lr=0.001 × seed=1
+[9/747] q1_burst_variance × adam × lr=0.001 × seed=2
+[10/747] q1_burst_variance × adam × lr=0.003 × seed=0
+[11/747] q1_burst_variance × adam × lr=0.003 × seed=1
+[12/747] q1_burst_variance × adam × lr=0.003 × seed=2
+[13/747] q1_burst_variance × adamw × lr=0.0001 × seed=0
+[14/747] q1_burst_variance × adamw × lr=0.0001 × seed=1
+[15/747] q1_burst_variance × adamw × lr=0.0001 × seed=2
+[16/747] q1_burst_variance × adamw × lr=0.0003 × seed=0
+[17/747] q1_burst_variance × adamw × lr=0.0003 × seed=1
+[18/747] q1_burst_variance × adamw × lr=0.0003 × seed=2
+[19/747] q1_burst_variance × adamw × lr=0.001 × seed=0
+[20/747] q1_burst_variance × adamw × lr=0.001 × seed=1
+[21/747] q1_burst_variance × adamw × lr=0.001 × seed=2
+[22/747] q1_burst_variance × adamw × lr=0.003 × seed=0
+[23/747] q1_burst_variance × adamw × lr=0.003 × seed=1
+[24/747] q1_burst_variance × adamw × lr=0.003 × seed=2
+[25/747] q1_burst_variance × yogi × lr=0.0001 × seed=0
+[26/747] q1_burst_variance × yogi × lr=0.0001 × seed=1
+[27/747] q1_burst_variance × yogi × lr=0.0001 × seed=2
+[28/747] q1_burst_variance × yogi × lr=0.0003 × seed=0
+[29/747] q1_burst_variance × yogi × lr=0.0003 × seed=1
+[30/747] q1_burst_variance × yogi × lr=0.0003 × seed=2
+[31/747] q1_burst_variance × yogi × lr=0.001 × seed=0
+[32/747] q1_burst_variance × yogi × lr=0.001 × seed=1
+[33/747] q1_burst_variance × yogi × lr=0.001 × seed=2
+[34/747] q1_burst_variance × yogi × lr=0.003 × seed=0
+[35/747] q1_burst_variance × yogi × lr=0.003 × seed=1
+[36/747] q1_burst_variance × yogi × lr=0.003 × seed=2
+[37/747] q1_burst_variance × muon × lr=0.0001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[38/747] q1_burst_variance × muon × lr=0.0001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[39/747] q1_burst_variance × muon × lr=0.0001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[40/747] q1_burst_variance × muon × lr=0.0003 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[41/747] q1_burst_variance × muon × lr=0.0003 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[42/747] q1_burst_variance × muon × lr=0.0003 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[43/747] q1_burst_variance × muon × lr=0.001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[44/747] q1_burst_variance × muon × lr=0.001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[45/747] q1_burst_variance × muon × lr=0.001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[46/747] q1_burst_variance × lion × lr=1e-05 × seed=0
+[47/747] q1_burst_variance × lion × lr=1e-05 × seed=1
+[48/747] q1_burst_variance × lion × lr=1e-05 × seed=2
+[49/747] q1_burst_variance × lion × lr=3e-05 × seed=0
+[50/747] q1_burst_variance × lion × lr=3e-05 × seed=1
+[51/747] q1_burst_variance × lion × lr=3e-05 × seed=2
+[52/747] q1_burst_variance × lion × lr=0.0001 × seed=0
+[53/747] q1_burst_variance × lion × lr=0.0001 × seed=1
+[54/747] q1_burst_variance × lion × lr=0.0001 × seed=2
+[55/747] q1_burst_variance × lion × lr=0.0003 × seed=0
+[56/747] q1_burst_variance × lion × lr=0.0003 × seed=1
+[57/747] q1_burst_variance × lion × lr=0.0003 × seed=2
+[58/747] q1_burst_variance × sophia × lr=0.0001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[59/747] q1_burst_variance × sophia × lr=0.0001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[60/747] q1_burst_variance × sophia × lr=0.0001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[61/747] q1_burst_variance × sophia × lr=0.0003 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[62/747] q1_burst_variance × sophia × lr=0.0003 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[63/747] q1_burst_variance × sophia × lr=0.0003 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[64/747] q1_burst_variance × sophia × lr=0.001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[65/747] q1_burst_variance × sophia × lr=0.001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[66/747] q1_burst_variance × sophia × lr=0.001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[67/747] q1_burst_variance × soap × lr=0.0001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[68/747] q1_burst_variance × soap × lr=0.0001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[69/747] q1_burst_variance × soap × lr=0.0001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[70/747] q1_burst_variance × soap × lr=0.0003 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[71/747] q1_burst_variance × soap × lr=0.0003 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[72/747] q1_burst_variance × soap × lr=0.0003 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[73/747] q1_burst_variance × soap × lr=0.001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[74/747] q1_burst_variance × soap × lr=0.001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[75/747] q1_burst_variance × soap × lr=0.001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[76/747] q1_burst_variance × naive_yogi_muon × lr=0.0001 × seed=0
+[77/747] q1_burst_variance × naive_yogi_muon × lr=0.0001 × seed=1
+[78/747] q1_burst_variance × naive_yogi_muon × lr=0.0001 × seed=2
+[79/747] q1_burst_variance × naive_yogi_muon × lr=0.0003 × seed=0
+[80/747] q1_burst_variance × naive_yogi_muon × lr=0.0003 × seed=1
+[81/747] q1_burst_variance × naive_yogi_muon × lr=0.0003 × seed=2
+[82/747] q1_burst_variance × naive_yogi_muon × lr=0.001 × seed=0
+[83/747] q1_burst_variance × naive_yogi_muon × lr=0.001 × seed=1
+[84/747] q1_burst_variance × naive_yogi_muon × lr=0.001 × seed=2
+[85/747] q1_burst_variance × naive_yogi_muon × lr=0.003 × seed=0
+[86/747] q1_burst_variance × naive_yogi_muon × lr=0.003 × seed=1
+[87/747] q1_burst_variance × naive_yogi_muon × lr=0.003 × seed=2
+[88/747] q1_burst_variance × muogi × lr=3e-05 × seed=0
+[89/747] q1_burst_variance × muogi × lr=3e-05 × seed=1
+[90/747] q1_burst_variance × muogi × lr=3e-05 × seed=2
+[91/747] q1_burst_variance × muogi × lr=0.0001 × seed=0
+[92/747] q1_burst_variance × muogi × lr=0.0001 × seed=1
+[93/747] q1_burst_variance × muogi × lr=0.0001 × seed=2
+[94/747] q1_burst_variance × muogi × lr=0.0003 × seed=0
+[95/747] q1_burst_variance × muogi × lr=0.0003 × seed=1
+[96/747] q1_burst_variance × muogi × lr=0.0003 × seed=2
+[97/747] q1_burst_variance × muogi × lr=0.001 × seed=0
+[98/747] q1_burst_variance × muogi × lr=0.001 × seed=1
+[99/747] q1_burst_variance × muogi × lr=0.001 × seed=2
+[100/747] q1_burst_variance × ramuogi × lr=3e-05 × seed=0
+[101/747] q1_burst_variance × ramuogi × lr=3e-05 × seed=1
+[102/747] q1_burst_variance × ramuogi × lr=3e-05 × seed=2
+[103/747] q1_burst_variance × ramuogi × lr=0.0001 × seed=0
+[104/747] q1_burst_variance × ramuogi × lr=0.0001 × seed=1
+[105/747] q1_burst_variance × ramuogi × lr=0.0001 × seed=2
+[106/747] q1_burst_variance × ramuogi × lr=0.0003 × seed=0
+[107/747] q1_burst_variance × ramuogi × lr=0.0003 × seed=1
+[108/747] q1_burst_variance × ramuogi × lr=0.0003 × seed=2
+[109/747] q1_burst_variance × ramuogi × lr=0.001 × seed=0
+[110/747] q1_burst_variance × ramuogi × lr=0.001 × seed=1
+[111/747] q1_burst_variance × ramuogi × lr=0.001 × seed=2
+[112/747] q1_burst_variance × liger × lr=1e-05 × seed=0
+[113/747] q1_burst_variance × liger × lr=1e-05 × seed=1
+[114/747] q1_burst_variance × liger × lr=1e-05 × seed=2
+[115/747] q1_burst_variance × liger × lr=3e-05 × seed=0
+[116/747] q1_burst_variance × liger × lr=3e-05 × seed=1
+[117/747] q1_burst_variance × liger × lr=3e-05 × seed=2
+[118/747] q1_burst_variance × liger × lr=0.0001 × seed=0
+[119/747] q1_burst_variance × liger × lr=0.0001 × seed=1
+[120/747] q1_burst_variance × liger × lr=0.0001 × seed=2
+[121/747] q1_burst_variance × liger × lr=0.0003 × seed=0
+[122/747] q1_burst_variance × liger × lr=0.0003 × seed=1
+[123/747] q1_burst_variance × liger × lr=0.0003 × seed=2
+[124/747] q1_burst_variance × racaso × lr=3e-05 × seed=0
+[125/747] q1_burst_variance × racaso × lr=3e-05 × seed=1
+[126/747] q1_burst_variance × racaso × lr=3e-05 × seed=2
+[127/747] q1_burst_variance × racaso × lr=0.0001 × seed=0
+[128/747] q1_burst_variance × racaso × lr=0.0001 × seed=1
+[129/747] q1_burst_variance × racaso × lr=0.0001 × seed=2
+[130/747] q1_burst_variance × racaso × lr=0.0003 × seed=0
+[131/747] q1_burst_variance × racaso × lr=0.0003 × seed=1
+[132/747] q1_burst_variance × racaso × lr=0.0003 × seed=2
+[133/747] q1_burst_variance × racaso × lr=0.001 × seed=0
+[134/747] q1_burst_variance × racaso × lr=0.001 × seed=1
+[135/747] q1_burst_variance × racaso × lr=0.001 × seed=2
+[136/747] q2_polar_decomposition × adam × lr=0.0001 × seed=0
+[137/747] q2_polar_decomposition × adam × lr=0.0001 × seed=1
+[138/747] q2_polar_decomposition × adam × lr=0.0001 × seed=2
+[139/747] q2_polar_decomposition × adam × lr=0.0003 × seed=0
+[140/747] q2_polar_decomposition × adam × lr=0.0003 × seed=1
+[141/747] q2_polar_decomposition × adam × lr=0.0003 × seed=2
+[142/747] q2_polar_decomposition × adam × lr=0.001 × seed=0
+[143/747] q2_polar_decomposition × adam × lr=0.001 × seed=1
+[144/747] q2_polar_decomposition × adam × lr=0.001 × seed=2
+[145/747] q2_polar_decomposition × adam × lr=0.003 × seed=0
+[146/747] q2_polar_decomposition × adam × lr=0.003 × seed=1
+[147/747] q2_polar_decomposition × adam × lr=0.003 × seed=2
+[148/747] q2_polar_decomposition × adamw × lr=0.0001 × seed=0
+[149/747] q2_polar_decomposition × adamw × lr=0.0001 × seed=1
+[150/747] q2_polar_decomposition × adamw × lr=0.0001 × seed=2
+[151/747] q2_polar_decomposition × adamw × lr=0.0003 × seed=0
+[152/747] q2_polar_decomposition × adamw × lr=0.0003 × seed=1
+[153/747] q2_polar_decomposition × adamw × lr=0.0003 × seed=2
+[154/747] q2_polar_decomposition × adamw × lr=0.001 × seed=0
+[155/747] q2_polar_decomposition × adamw × lr=0.001 × seed=1
+[156/747] q2_polar_decomposition × adamw × lr=0.001 × seed=2
+[157/747] q2_polar_decomposition × adamw × lr=0.003 × seed=0
+[158/747] q2_polar_decomposition × adamw × lr=0.003 × seed=1
+[159/747] q2_polar_decomposition × adamw × lr=0.003 × seed=2
+[160/747] q2_polar_decomposition × yogi × lr=0.0001 × seed=0
+[161/747] q2_polar_decomposition × yogi × lr=0.0001 × seed=1
+[162/747] q2_polar_decomposition × yogi × lr=0.0001 × seed=2
+[163/747] q2_polar_decomposition × yogi × lr=0.0003 × seed=0
+[164/747] q2_polar_decomposition × yogi × lr=0.0003 × seed=1
+[165/747] q2_polar_decomposition × yogi × lr=0.0003 × seed=2
+[166/747] q2_polar_decomposition × yogi × lr=0.001 × seed=0
+[167/747] q2_polar_decomposition × yogi × lr=0.001 × seed=1
+[168/747] q2_polar_decomposition × yogi × lr=0.001 × seed=2
+[169/747] q2_polar_decomposition × yogi × lr=0.003 × seed=0
+[170/747] q2_polar_decomposition × yogi × lr=0.003 × seed=1
+[171/747] q2_polar_decomposition × yogi × lr=0.003 × seed=2
+[172/747] q2_polar_decomposition × muon × lr=0.0001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[173/747] q2_polar_decomposition × muon × lr=0.0001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[174/747] q2_polar_decomposition × muon × lr=0.0001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[175/747] q2_polar_decomposition × muon × lr=0.0003 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[176/747] q2_polar_decomposition × muon × lr=0.0003 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[177/747] q2_polar_decomposition × muon × lr=0.0003 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[178/747] q2_polar_decomposition × muon × lr=0.001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[179/747] q2_polar_decomposition × muon × lr=0.001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[180/747] q2_polar_decomposition × muon × lr=0.001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[181/747] q2_polar_decomposition × lion × lr=1e-05 × seed=0
+[182/747] q2_polar_decomposition × lion × lr=1e-05 × seed=1
+[183/747] q2_polar_decomposition × lion × lr=1e-05 × seed=2
+[184/747] q2_polar_decomposition × lion × lr=3e-05 × seed=0
+[185/747] q2_polar_decomposition × lion × lr=3e-05 × seed=1
+[186/747] q2_polar_decomposition × lion × lr=3e-05 × seed=2
+[187/747] q2_polar_decomposition × lion × lr=0.0001 × seed=0
+[188/747] q2_polar_decomposition × lion × lr=0.0001 × seed=1
+[189/747] q2_polar_decomposition × lion × lr=0.0001 × seed=2
+[190/747] q2_polar_decomposition × lion × lr=0.0003 × seed=0
+[191/747] q2_polar_decomposition × lion × lr=0.0003 × seed=1
+[192/747] q2_polar_decomposition × lion × lr=0.0003 × seed=2
+[193/747] q2_polar_decomposition × sophia × lr=0.0001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[194/747] q2_polar_decomposition × sophia × lr=0.0001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[195/747] q2_polar_decomposition × sophia × lr=0.0001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[196/747] q2_polar_decomposition × sophia × lr=0.0003 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[197/747] q2_polar_decomposition × sophia × lr=0.0003 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[198/747] q2_polar_decomposition × sophia × lr=0.0003 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[199/747] q2_polar_decomposition × sophia × lr=0.001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[200/747] q2_polar_decomposition × sophia × lr=0.001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[201/747] q2_polar_decomposition × sophia × lr=0.001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[202/747] q2_polar_decomposition × soap × lr=0.0001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[203/747] q2_polar_decomposition × soap × lr=0.0001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[204/747] q2_polar_decomposition × soap × lr=0.0001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[205/747] q2_polar_decomposition × soap × lr=0.0003 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[206/747] q2_polar_decomposition × soap × lr=0.0003 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[207/747] q2_polar_decomposition × soap × lr=0.0003 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[208/747] q2_polar_decomposition × soap × lr=0.001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[209/747] q2_polar_decomposition × soap × lr=0.001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[210/747] q2_polar_decomposition × soap × lr=0.001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[211/747] q2_polar_decomposition × naive_yogi_muon × lr=0.0001 × seed=0
+[212/747] q2_polar_decomposition × naive_yogi_muon × lr=0.0001 × seed=1
+[213/747] q2_polar_decomposition × naive_yogi_muon × lr=0.0001 × seed=2
+[214/747] q2_polar_decomposition × naive_yogi_muon × lr=0.0003 × seed=0
+[215/747] q2_polar_decomposition × naive_yogi_muon × lr=0.0003 × seed=1
+[216/747] q2_polar_decomposition × naive_yogi_muon × lr=0.0003 × seed=2
+[217/747] q2_polar_decomposition × naive_yogi_muon × lr=0.001 × seed=0
+[218/747] q2_polar_decomposition × naive_yogi_muon × lr=0.001 × seed=1
+[219/747] q2_polar_decomposition × naive_yogi_muon × lr=0.001 × seed=2
+[220/747] q2_polar_decomposition × naive_yogi_muon × lr=0.003 × seed=0
+[221/747] q2_polar_decomposition × naive_yogi_muon × lr=0.003 × seed=1
+[222/747] q2_polar_decomposition × naive_yogi_muon × lr=0.003 × seed=2
+[223/747] q2_polar_decomposition × muogi × lr=3e-05 × seed=0
+[224/747] q2_polar_decomposition × muogi × lr=3e-05 × seed=1
+[225/747] q2_polar_decomposition × muogi × lr=3e-05 × seed=2
+[226/747] q2_polar_decomposition × muogi × lr=0.0001 × seed=0
+[227/747] q2_polar_decomposition × muogi × lr=0.0001 × seed=1
+[228/747] q2_polar_decomposition × muogi × lr=0.0001 × seed=2
+[229/747] q2_polar_decomposition × muogi × lr=0.0003 × seed=0
+[230/747] q2_polar_decomposition × muogi × lr=0.0003 × seed=1
+[231/747] q2_polar_decomposition × muogi × lr=0.0003 × seed=2
+[232/747] q2_polar_decomposition × muogi × lr=0.001 × seed=0
+[233/747] q2_polar_decomposition × muogi × lr=0.001 × seed=1
+[234/747] q2_polar_decomposition × muogi × lr=0.001 × seed=2
+[235/747] q2_polar_decomposition × ramuogi × lr=3e-05 × seed=0
+[236/747] q2_polar_decomposition × ramuogi × lr=3e-05 × seed=1
+[237/747] q2_polar_decomposition × ramuogi × lr=3e-05 × seed=2
+[238/747] q2_polar_decomposition × ramuogi × lr=0.0001 × seed=0
+[239/747] q2_polar_decomposition × ramuogi × lr=0.0001 × seed=1
+[240/747] q2_polar_decomposition × ramuogi × lr=0.0001 × seed=2
+[241/747] q2_polar_decomposition × ramuogi × lr=0.0003 × seed=0
+[242/747] q2_polar_decomposition × ramuogi × lr=0.0003 × seed=1
+[243/747] q2_polar_decomposition × ramuogi × lr=0.0003 × seed=2
+[244/747] q2_polar_decomposition × ramuogi × lr=0.001 × seed=0
+[245/747] q2_polar_decomposition × ramuogi × lr=0.001 × seed=1
+[246/747] q2_polar_decomposition × ramuogi × lr=0.001 × seed=2
+[247/747] q2_polar_decomposition × liger × lr=1e-05 × seed=0
+[248/747] q2_polar_decomposition × liger × lr=1e-05 × seed=1
+[249/747] q2_polar_decomposition × liger × lr=1e-05 × seed=2
+[250/747] q2_polar_decomposition × liger × lr=3e-05 × seed=0
+[251/747] q2_polar_decomposition × liger × lr=3e-05 × seed=1
+[252/747] q2_polar_decomposition × liger × lr=3e-05 × seed=2
+[253/747] q2_polar_decomposition × liger × lr=0.0001 × seed=0
+[254/747] q2_polar_decomposition × liger × lr=0.0001 × seed=1
+[255/747] q2_polar_decomposition × liger × lr=0.0001 × seed=2
+[256/747] q2_polar_decomposition × liger × lr=0.0003 × seed=0
+[257/747] q2_polar_decomposition × liger × lr=0.0003 × seed=1
+[258/747] q2_polar_decomposition × liger × lr=0.0003 × seed=2
+[259/747] q2_polar_decomposition × racaso × lr=3e-05 × seed=0
+[260/747] q2_polar_decomposition × racaso × lr=3e-05 × seed=1
+[261/747] q2_polar_decomposition × racaso × lr=3e-05 × seed=2
+[262/747] q2_polar_decomposition × racaso × lr=0.0001 × seed=0
+[263/747] q2_polar_decomposition × racaso × lr=0.0001 × seed=1
+[264/747] q2_polar_decomposition × racaso × lr=0.0001 × seed=2
+[265/747] q2_polar_decomposition × racaso × lr=0.0003 × seed=0
+[266/747] q2_polar_decomposition × racaso × lr=0.0003 × seed=1
+[267/747] q2_polar_decomposition × racaso × lr=0.0003 × seed=2
+[268/747] q2_polar_decomposition × racaso × lr=0.001 × seed=0
+[269/747] q2_polar_decomposition × racaso × lr=0.001 × seed=1
+[270/747] q2_polar_decomposition × racaso × lr=0.001 × seed=2
+[271/747] q3_tiny_mlp_mixed × adam × lr=0.0001 × seed=0
+[272/747] q3_tiny_mlp_mixed × adam × lr=0.0001 × seed=1
+[273/747] q3_tiny_mlp_mixed × adam × lr=0.0001 × seed=2
+[274/747] q3_tiny_mlp_mixed × adam × lr=0.0003 × seed=0
+[275/747] q3_tiny_mlp_mixed × adam × lr=0.0003 × seed=1
+[276/747] q3_tiny_mlp_mixed × adam × lr=0.0003 × seed=2
+[277/747] q3_tiny_mlp_mixed × adam × lr=0.001 × seed=0
+[278/747] q3_tiny_mlp_mixed × adam × lr=0.001 × seed=1
+[279/747] q3_tiny_mlp_mixed × adam × lr=0.001 × seed=2
+[280/747] q3_tiny_mlp_mixed × adam × lr=0.003 × seed=0
+[281/747] q3_tiny_mlp_mixed × adam × lr=0.003 × seed=1
+[282/747] q3_tiny_mlp_mixed × adam × lr=0.003 × seed=2
+[283/747] q3_tiny_mlp_mixed × adamw × lr=0.0001 × seed=0
+[284/747] q3_tiny_mlp_mixed × adamw × lr=0.0001 × seed=1
+[285/747] q3_tiny_mlp_mixed × adamw × lr=0.0001 × seed=2
+[286/747] q3_tiny_mlp_mixed × adamw × lr=0.0003 × seed=0
+[287/747] q3_tiny_mlp_mixed × adamw × lr=0.0003 × seed=1
+[288/747] q3_tiny_mlp_mixed × adamw × lr=0.0003 × seed=2
+[289/747] q3_tiny_mlp_mixed × adamw × lr=0.001 × seed=0
+[290/747] q3_tiny_mlp_mixed × adamw × lr=0.001 × seed=1
+[291/747] q3_tiny_mlp_mixed × adamw × lr=0.001 × seed=2
+[292/747] q3_tiny_mlp_mixed × adamw × lr=0.003 × seed=0
+[293/747] q3_tiny_mlp_mixed × adamw × lr=0.003 × seed=1
+[294/747] q3_tiny_mlp_mixed × adamw × lr=0.003 × seed=2
+[295/747] q3_tiny_mlp_mixed × yogi × lr=0.0001 × seed=0
+[296/747] q3_tiny_mlp_mixed × yogi × lr=0.0001 × seed=1
+[297/747] q3_tiny_mlp_mixed × yogi × lr=0.0001 × seed=2
+[298/747] q3_tiny_mlp_mixed × yogi × lr=0.0003 × seed=0
+[299/747] q3_tiny_mlp_mixed × yogi × lr=0.0003 × seed=1
+[300/747] q3_tiny_mlp_mixed × yogi × lr=0.0003 × seed=2
+[301/747] q3_tiny_mlp_mixed × yogi × lr=0.001 × seed=0
+[302/747] q3_tiny_mlp_mixed × yogi × lr=0.001 × seed=1
+[303/747] q3_tiny_mlp_mixed × yogi × lr=0.001 × seed=2
+[304/747] q3_tiny_mlp_mixed × yogi × lr=0.003 × seed=0
+[305/747] q3_tiny_mlp_mixed × yogi × lr=0.003 × seed=1
+[306/747] q3_tiny_mlp_mixed × yogi × lr=0.003 × seed=2
+[307/747] q3_tiny_mlp_mixed × muon × lr=0.0001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[308/747] q3_tiny_mlp_mixed × muon × lr=0.0001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[309/747] q3_tiny_mlp_mixed × muon × lr=0.0001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[310/747] q3_tiny_mlp_mixed × muon × lr=0.0003 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[311/747] q3_tiny_mlp_mixed × muon × lr=0.0003 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[312/747] q3_tiny_mlp_mixed × muon × lr=0.0003 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[313/747] q3_tiny_mlp_mixed × muon × lr=0.001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[314/747] q3_tiny_mlp_mixed × muon × lr=0.001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[315/747] q3_tiny_mlp_mixed × muon × lr=0.001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[316/747] q3_tiny_mlp_mixed × lion × lr=1e-05 × seed=0
+[317/747] q3_tiny_mlp_mixed × lion × lr=1e-05 × seed=1
+[318/747] q3_tiny_mlp_mixed × lion × lr=1e-05 × seed=2
+[319/747] q3_tiny_mlp_mixed × lion × lr=3e-05 × seed=0
+[320/747] q3_tiny_mlp_mixed × lion × lr=3e-05 × seed=1
+[321/747] q3_tiny_mlp_mixed × lion × lr=3e-05 × seed=2
+[322/747] q3_tiny_mlp_mixed × lion × lr=0.0001 × seed=0
+[323/747] q3_tiny_mlp_mixed × lion × lr=0.0001 × seed=1
+[324/747] q3_tiny_mlp_mixed × lion × lr=0.0001 × seed=2
+[325/747] q3_tiny_mlp_mixed × lion × lr=0.0003 × seed=0
+[326/747] q3_tiny_mlp_mixed × lion × lr=0.0003 × seed=1
+[327/747] q3_tiny_mlp_mixed × lion × lr=0.0003 × seed=2
+[328/747] q3_tiny_mlp_mixed × sophia × lr=0.0001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[329/747] q3_tiny_mlp_mixed × sophia × lr=0.0001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[330/747] q3_tiny_mlp_mixed × sophia × lr=0.0001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[331/747] q3_tiny_mlp_mixed × sophia × lr=0.0003 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[332/747] q3_tiny_mlp_mixed × sophia × lr=0.0003 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[333/747] q3_tiny_mlp_mixed × sophia × lr=0.0003 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[334/747] q3_tiny_mlp_mixed × sophia × lr=0.001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[335/747] q3_tiny_mlp_mixed × sophia × lr=0.001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[336/747] q3_tiny_mlp_mixed × sophia × lr=0.001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[337/747] q3_tiny_mlp_mixed × soap × lr=0.0001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[338/747] q3_tiny_mlp_mixed × soap × lr=0.0001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[339/747] q3_tiny_mlp_mixed × soap × lr=0.0001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[340/747] q3_tiny_mlp_mixed × soap × lr=0.0003 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[341/747] q3_tiny_mlp_mixed × soap × lr=0.0003 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[342/747] q3_tiny_mlp_mixed × soap × lr=0.0003 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[343/747] q3_tiny_mlp_mixed × soap × lr=0.001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[344/747] q3_tiny_mlp_mixed × soap × lr=0.001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[345/747] q3_tiny_mlp_mixed × soap × lr=0.001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[346/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.0001 × seed=0
+[347/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.0001 × seed=1
+[348/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.0001 × seed=2
+[349/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.0003 × seed=0
+[350/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.0003 × seed=1
+[351/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.0003 × seed=2
+[352/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.001 × seed=0
+[353/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.001 × seed=1
+[354/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.001 × seed=2
+[355/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.003 × seed=0
+[356/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.003 × seed=1
+[357/747] q3_tiny_mlp_mixed × naive_yogi_muon × lr=0.003 × seed=2
+[358/747] q3_tiny_mlp_mixed × muogi × lr=3e-05 × seed=0
+[359/747] q3_tiny_mlp_mixed × muogi × lr=3e-05 × seed=1
+[360/747] q3_tiny_mlp_mixed × muogi × lr=3e-05 × seed=2
+[361/747] q3_tiny_mlp_mixed × muogi × lr=0.0001 × seed=0
+[362/747] q3_tiny_mlp_mixed × muogi × lr=0.0001 × seed=1
+[363/747] q3_tiny_mlp_mixed × muogi × lr=0.0001 × seed=2
+[364/747] q3_tiny_mlp_mixed × muogi × lr=0.0003 × seed=0
+[365/747] q3_tiny_mlp_mixed × muogi × lr=0.0003 × seed=1
+[366/747] q3_tiny_mlp_mixed × muogi × lr=0.0003 × seed=2
+[367/747] q3_tiny_mlp_mixed × muogi × lr=0.001 × seed=0
+[368/747] q3_tiny_mlp_mixed × muogi × lr=0.001 × seed=1
+[369/747] q3_tiny_mlp_mixed × muogi × lr=0.001 × seed=2
+[370/747] q3_tiny_mlp_mixed × ramuogi × lr=3e-05 × seed=0
+[371/747] q3_tiny_mlp_mixed × ramuogi × lr=3e-05 × seed=1
+[372/747] q3_tiny_mlp_mixed × ramuogi × lr=3e-05 × seed=2
+[373/747] q3_tiny_mlp_mixed × ramuogi × lr=0.0001 × seed=0
+[374/747] q3_tiny_mlp_mixed × ramuogi × lr=0.0001 × seed=1
+[375/747] q3_tiny_mlp_mixed × ramuogi × lr=0.0001 × seed=2
+[376/747] q3_tiny_mlp_mixed × ramuogi × lr=0.0003 × seed=0
+[377/747] q3_tiny_mlp_mixed × ramuogi × lr=0.0003 × seed=1
+[378/747] q3_tiny_mlp_mixed × ramuogi × lr=0.0003 × seed=2
+[379/747] q3_tiny_mlp_mixed × ramuogi × lr=0.001 × seed=0
+[380/747] q3_tiny_mlp_mixed × ramuogi × lr=0.001 × seed=1
+[381/747] q3_tiny_mlp_mixed × ramuogi × lr=0.001 × seed=2
+[382/747] q3_tiny_mlp_mixed × liger × lr=1e-05 × seed=0
+[383/747] q3_tiny_mlp_mixed × liger × lr=1e-05 × seed=1
+[384/747] q3_tiny_mlp_mixed × liger × lr=1e-05 × seed=2
+[385/747] q3_tiny_mlp_mixed × liger × lr=3e-05 × seed=0
+[386/747] q3_tiny_mlp_mixed × liger × lr=3e-05 × seed=1
+[387/747] q3_tiny_mlp_mixed × liger × lr=3e-05 × seed=2
+[388/747] q3_tiny_mlp_mixed × liger × lr=0.0001 × seed=0
+[389/747] q3_tiny_mlp_mixed × liger × lr=0.0001 × seed=1
+[390/747] q3_tiny_mlp_mixed × liger × lr=0.0001 × seed=2
+[391/747] q3_tiny_mlp_mixed × liger × lr=0.0003 × seed=0
+[392/747] q3_tiny_mlp_mixed × liger × lr=0.0003 × seed=1
+[393/747] q3_tiny_mlp_mixed × liger × lr=0.0003 × seed=2
+[394/747] q3_tiny_mlp_mixed × racaso × lr=3e-05 × seed=0
+[395/747] q3_tiny_mlp_mixed × racaso × lr=3e-05 × seed=1
+[396/747] q3_tiny_mlp_mixed × racaso × lr=3e-05 × seed=2
+[397/747] q3_tiny_mlp_mixed × racaso × lr=0.0001 × seed=0
+[398/747] q3_tiny_mlp_mixed × racaso × lr=0.0001 × seed=1
+[399/747] q3_tiny_mlp_mixed × racaso × lr=0.0001 × seed=2
+[400/747] q3_tiny_mlp_mixed × racaso × lr=0.0003 × seed=0
+[401/747] q3_tiny_mlp_mixed × racaso × lr=0.0003 × seed=1
+[402/747] q3_tiny_mlp_mixed × racaso × lr=0.0003 × seed=2
+[403/747] q3_tiny_mlp_mixed × racaso × lr=0.001 × seed=0
+[404/747] q3_tiny_mlp_mixed × racaso × lr=0.001 × seed=1
+[405/747] q3_tiny_mlp_mixed × racaso × lr=0.001 × seed=2
+[406/747] q4_ns5_stress × adam × lr=0.0001 × seed=0
+[407/747] q4_ns5_stress × adam × lr=0.0001 × seed=1
+[408/747] q4_ns5_stress × adam × lr=0.0001 × seed=2
+[409/747] q4_ns5_stress × adam × lr=0.0003 × seed=0
+[410/747] q4_ns5_stress × adam × lr=0.0003 × seed=1
+[411/747] q4_ns5_stress × adam × lr=0.0003 × seed=2
+[412/747] q4_ns5_stress × adam × lr=0.001 × seed=0
+[413/747] q4_ns5_stress × adam × lr=0.001 × seed=1
+[414/747] q4_ns5_stress × adam × lr=0.001 × seed=2
+[415/747] q4_ns5_stress × adam × lr=0.003 × seed=0
+[416/747] q4_ns5_stress × adam × lr=0.003 × seed=1
+[417/747] q4_ns5_stress × adam × lr=0.003 × seed=2
+[418/747] q4_ns5_stress × adamw × lr=0.0001 × seed=0
+[419/747] q4_ns5_stress × adamw × lr=0.0001 × seed=1
+[420/747] q4_ns5_stress × adamw × lr=0.0001 × seed=2
+[421/747] q4_ns5_stress × adamw × lr=0.0003 × seed=0
+[422/747] q4_ns5_stress × adamw × lr=0.0003 × seed=1
+[423/747] q4_ns5_stress × adamw × lr=0.0003 × seed=2
+[424/747] q4_ns5_stress × adamw × lr=0.001 × seed=0
+[425/747] q4_ns5_stress × adamw × lr=0.001 × seed=1
+[426/747] q4_ns5_stress × adamw × lr=0.001 × seed=2
+[427/747] q4_ns5_stress × adamw × lr=0.003 × seed=0
+[428/747] q4_ns5_stress × adamw × lr=0.003 × seed=1
+[429/747] q4_ns5_stress × adamw × lr=0.003 × seed=2
+[430/747] q4_ns5_stress × yogi × lr=0.0001 × seed=0
+[431/747] q4_ns5_stress × yogi × lr=0.0001 × seed=1
+[432/747] q4_ns5_stress × yogi × lr=0.0001 × seed=2
+[433/747] q4_ns5_stress × yogi × lr=0.0003 × seed=0
+[434/747] q4_ns5_stress × yogi × lr=0.0003 × seed=1
+[435/747] q4_ns5_stress × yogi × lr=0.0003 × seed=2
+[436/747] q4_ns5_stress × yogi × lr=0.001 × seed=0
+[437/747] q4_ns5_stress × yogi × lr=0.001 × seed=1
+[438/747] q4_ns5_stress × yogi × lr=0.001 × seed=2
+[439/747] q4_ns5_stress × yogi × lr=0.003 × seed=0
+[440/747] q4_ns5_stress × yogi × lr=0.003 × seed=1
+[441/747] q4_ns5_stress × yogi × lr=0.003 × seed=2
+[442/747] q4_ns5_stress × muon × lr=0.0001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[443/747] q4_ns5_stress × muon × lr=0.0001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[444/747] q4_ns5_stress × muon × lr=0.0001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[445/747] q4_ns5_stress × muon × lr=0.0003 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[446/747] q4_ns5_stress × muon × lr=0.0003 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[447/747] q4_ns5_stress × muon × lr=0.0003 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[448/747] q4_ns5_stress × muon × lr=0.001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[449/747] q4_ns5_stress × muon × lr=0.001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[450/747] q4_ns5_stress × muon × lr=0.001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[451/747] q4_ns5_stress × lion × lr=1e-05 × seed=0
+[452/747] q4_ns5_stress × lion × lr=1e-05 × seed=1
+[453/747] q4_ns5_stress × lion × lr=1e-05 × seed=2
+[454/747] q4_ns5_stress × lion × lr=3e-05 × seed=0
+[455/747] q4_ns5_stress × lion × lr=3e-05 × seed=1
+[456/747] q4_ns5_stress × lion × lr=3e-05 × seed=2
+[457/747] q4_ns5_stress × lion × lr=0.0001 × seed=0
+[458/747] q4_ns5_stress × lion × lr=0.0001 × seed=1
+[459/747] q4_ns5_stress × lion × lr=0.0001 × seed=2
+[460/747] q4_ns5_stress × lion × lr=0.0003 × seed=0
+[461/747] q4_ns5_stress × lion × lr=0.0003 × seed=1
+[462/747] q4_ns5_stress × lion × lr=0.0003 × seed=2
+[463/747] q4_ns5_stress × sophia × lr=0.0001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[464/747] q4_ns5_stress × sophia × lr=0.0001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[465/747] q4_ns5_stress × sophia × lr=0.0001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[466/747] q4_ns5_stress × sophia × lr=0.0003 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[467/747] q4_ns5_stress × sophia × lr=0.0003 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[468/747] q4_ns5_stress × sophia × lr=0.0003 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[469/747] q4_ns5_stress × sophia × lr=0.001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[470/747] q4_ns5_stress × sophia × lr=0.001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[471/747] q4_ns5_stress × sophia × lr=0.001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[472/747] q4_ns5_stress × soap × lr=0.0001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[473/747] q4_ns5_stress × soap × lr=0.0001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[474/747] q4_ns5_stress × soap × lr=0.0001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[475/747] q4_ns5_stress × soap × lr=0.0003 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[476/747] q4_ns5_stress × soap × lr=0.0003 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[477/747] q4_ns5_stress × soap × lr=0.0003 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[478/747] q4_ns5_stress × soap × lr=0.001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[479/747] q4_ns5_stress × soap × lr=0.001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[480/747] q4_ns5_stress × soap × lr=0.001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[481/747] q4_ns5_stress × naive_yogi_muon × lr=0.0001 × seed=0
+[482/747] q4_ns5_stress × naive_yogi_muon × lr=0.0001 × seed=1
+[483/747] q4_ns5_stress × naive_yogi_muon × lr=0.0001 × seed=2
+[484/747] q4_ns5_stress × naive_yogi_muon × lr=0.0003 × seed=0
+[485/747] q4_ns5_stress × naive_yogi_muon × lr=0.0003 × seed=1
+[486/747] q4_ns5_stress × naive_yogi_muon × lr=0.0003 × seed=2
+[487/747] q4_ns5_stress × naive_yogi_muon × lr=0.001 × seed=0
+[488/747] q4_ns5_stress × naive_yogi_muon × lr=0.001 × seed=1
+[489/747] q4_ns5_stress × naive_yogi_muon × lr=0.001 × seed=2
+[490/747] q4_ns5_stress × naive_yogi_muon × lr=0.003 × seed=0
+[491/747] q4_ns5_stress × naive_yogi_muon × lr=0.003 × seed=1
+[492/747] q4_ns5_stress × naive_yogi_muon × lr=0.003 × seed=2
+[493/747] q4_ns5_stress × muogi × lr=3e-05 × seed=0
+[494/747] q4_ns5_stress × muogi × lr=3e-05 × seed=1
+[495/747] q4_ns5_stress × muogi × lr=3e-05 × seed=2
+[496/747] q4_ns5_stress × muogi × lr=0.0001 × seed=0
+[497/747] q4_ns5_stress × muogi × lr=0.0001 × seed=1
+[498/747] q4_ns5_stress × muogi × lr=0.0001 × seed=2
+[499/747] q4_ns5_stress × muogi × lr=0.0003 × seed=0
+[500/747] q4_ns5_stress × muogi × lr=0.0003 × seed=1
+[501/747] q4_ns5_stress × muogi × lr=0.0003 × seed=2
+[502/747] q4_ns5_stress × muogi × lr=0.001 × seed=0
+[503/747] q4_ns5_stress × muogi × lr=0.001 × seed=1
+[504/747] q4_ns5_stress × muogi × lr=0.001 × seed=2
+[505/747] q4_ns5_stress × ramuogi × lr=3e-05 × seed=0
+[506/747] q4_ns5_stress × ramuogi × lr=3e-05 × seed=1
+[507/747] q4_ns5_stress × ramuogi × lr=3e-05 × seed=2
+[508/747] q4_ns5_stress × ramuogi × lr=0.0001 × seed=0
+[509/747] q4_ns5_stress × ramuogi × lr=0.0001 × seed=1
+[510/747] q4_ns5_stress × ramuogi × lr=0.0001 × seed=2
+[511/747] q4_ns5_stress × ramuogi × lr=0.0003 × seed=0
+[512/747] q4_ns5_stress × ramuogi × lr=0.0003 × seed=1
+[513/747] q4_ns5_stress × ramuogi × lr=0.0003 × seed=2
+[514/747] q4_ns5_stress × ramuogi × lr=0.001 × seed=0
+[515/747] q4_ns5_stress × ramuogi × lr=0.001 × seed=1
+[516/747] q4_ns5_stress × ramuogi × lr=0.001 × seed=2
+[517/747] q4_ns5_stress × liger × lr=1e-05 × seed=0
+[518/747] q4_ns5_stress × liger × lr=1e-05 × seed=1
+[519/747] q4_ns5_stress × liger × lr=1e-05 × seed=2
+[520/747] q4_ns5_stress × liger × lr=3e-05 × seed=0
+[521/747] q4_ns5_stress × liger × lr=3e-05 × seed=1
+[522/747] q4_ns5_stress × liger × lr=3e-05 × seed=2
+[523/747] q4_ns5_stress × liger × lr=0.0001 × seed=0
+[524/747] q4_ns5_stress × liger × lr=0.0001 × seed=1
+[525/747] q4_ns5_stress × liger × lr=0.0001 × seed=2
+[526/747] q4_ns5_stress × liger × lr=0.0003 × seed=0
+[527/747] q4_ns5_stress × liger × lr=0.0003 × seed=1
+[528/747] q4_ns5_stress × liger × lr=0.0003 × seed=2
+[529/747] q4_ns5_stress × racaso × lr=3e-05 × seed=0
+[530/747] q4_ns5_stress × racaso × lr=3e-05 × seed=1
+[531/747] q4_ns5_stress × racaso × lr=3e-05 × seed=2
+[532/747] q4_ns5_stress × racaso × lr=0.0001 × seed=0
+[533/747] q4_ns5_stress × racaso × lr=0.0001 × seed=1
+[534/747] q4_ns5_stress × racaso × lr=0.0001 × seed=2
+[535/747] q4_ns5_stress × racaso × lr=0.0003 × seed=0
+[536/747] q4_ns5_stress × racaso × lr=0.0003 × seed=1
+[537/747] q4_ns5_stress × racaso × lr=0.0003 × seed=2
+[538/747] q4_ns5_stress × racaso × lr=0.001 × seed=0
+[539/747] q4_ns5_stress × racaso × lr=0.001 × seed=1
+[540/747] q4_ns5_stress × racaso × lr=0.001 × seed=2
+[541/747] q5_radam_cold_start × adam × lr=0.0001 × seed=0
+[542/747] q5_radam_cold_start × adam × lr=0.0001 × seed=1
+[543/747] q5_radam_cold_start × adam × lr=0.0001 × seed=2
+[544/747] q5_radam_cold_start × adam × lr=0.0003 × seed=0
+[545/747] q5_radam_cold_start × adam × lr=0.0003 × seed=1
+[546/747] q5_radam_cold_start × adam × lr=0.0003 × seed=2
+[547/747] q5_radam_cold_start × adam × lr=0.001 × seed=0
+[548/747] q5_radam_cold_start × adam × lr=0.001 × seed=1
+[549/747] q5_radam_cold_start × adam × lr=0.001 × seed=2
+[550/747] q5_radam_cold_start × adam × lr=0.003 × seed=0
+[551/747] q5_radam_cold_start × adam × lr=0.003 × seed=1
+[552/747] q5_radam_cold_start × adam × lr=0.003 × seed=2
+[553/747] q5_radam_cold_start × adamw × lr=0.0001 × seed=0
+[554/747] q5_radam_cold_start × adamw × lr=0.0001 × seed=1
+[555/747] q5_radam_cold_start × adamw × lr=0.0001 × seed=2
+[556/747] q5_radam_cold_start × adamw × lr=0.0003 × seed=0
+[557/747] q5_radam_cold_start × adamw × lr=0.0003 × seed=1
+[558/747] q5_radam_cold_start × adamw × lr=0.0003 × seed=2
+[559/747] q5_radam_cold_start × adamw × lr=0.001 × seed=0
+[560/747] q5_radam_cold_start × adamw × lr=0.001 × seed=1
+[561/747] q5_radam_cold_start × adamw × lr=0.001 × seed=2
+[562/747] q5_radam_cold_start × adamw × lr=0.003 × seed=0
+[563/747] q5_radam_cold_start × adamw × lr=0.003 × seed=1
+[564/747] q5_radam_cold_start × adamw × lr=0.003 × seed=2
+[565/747] q5_radam_cold_start × yogi × lr=0.0001 × seed=0
+[566/747] q5_radam_cold_start × yogi × lr=0.0001 × seed=1
+[567/747] q5_radam_cold_start × yogi × lr=0.0001 × seed=2
+[568/747] q5_radam_cold_start × yogi × lr=0.0003 × seed=0
+[569/747] q5_radam_cold_start × yogi × lr=0.0003 × seed=1
+[570/747] q5_radam_cold_start × yogi × lr=0.0003 × seed=2
+[571/747] q5_radam_cold_start × yogi × lr=0.001 × seed=0
+[572/747] q5_radam_cold_start × yogi × lr=0.001 × seed=1
+[573/747] q5_radam_cold_start × yogi × lr=0.001 × seed=2
+[574/747] q5_radam_cold_start × yogi × lr=0.003 × seed=0
+[575/747] q5_radam_cold_start × yogi × lr=0.003 × seed=1
+[576/747] q5_radam_cold_start × yogi × lr=0.003 × seed=2
+[577/747] q5_radam_cold_start × muon × lr=0.0001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[578/747] q5_radam_cold_start × muon × lr=0.0001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[579/747] q5_radam_cold_start × muon × lr=0.0001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[580/747] q5_radam_cold_start × muon × lr=0.0003 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[581/747] q5_radam_cold_start × muon × lr=0.0003 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[582/747] q5_radam_cold_start × muon × lr=0.0003 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[583/747] q5_radam_cold_start × muon × lr=0.001 × seed=0
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[584/747] q5_radam_cold_start × muon × lr=0.001 × seed=1
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[585/747] q5_radam_cold_start × muon × lr=0.001 × seed=2
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[586/747] q5_radam_cold_start × lion × lr=1e-05 × seed=0
+[587/747] q5_radam_cold_start × lion × lr=1e-05 × seed=1
+[588/747] q5_radam_cold_start × lion × lr=1e-05 × seed=2
+[589/747] q5_radam_cold_start × lion × lr=3e-05 × seed=0
+[590/747] q5_radam_cold_start × lion × lr=3e-05 × seed=1
+[591/747] q5_radam_cold_start × lion × lr=3e-05 × seed=2
+[592/747] q5_radam_cold_start × lion × lr=0.0001 × seed=0
+[593/747] q5_radam_cold_start × lion × lr=0.0001 × seed=1
+[594/747] q5_radam_cold_start × lion × lr=0.0001 × seed=2
+[595/747] q5_radam_cold_start × lion × lr=0.0003 × seed=0
+[596/747] q5_radam_cold_start × lion × lr=0.0003 × seed=1
+[597/747] q5_radam_cold_start × lion × lr=0.0003 × seed=2
+[598/747] q5_radam_cold_start × sophia × lr=0.0001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[599/747] q5_radam_cold_start × sophia × lr=0.0001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[600/747] q5_radam_cold_start × sophia × lr=0.0001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[601/747] q5_radam_cold_start × sophia × lr=0.0003 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[602/747] q5_radam_cold_start × sophia × lr=0.0003 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[603/747] q5_radam_cold_start × sophia × lr=0.0003 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[604/747] q5_radam_cold_start × sophia × lr=0.001 × seed=0
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[605/747] q5_radam_cold_start × sophia × lr=0.001 × seed=1
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[606/747] q5_radam_cold_start × sophia × lr=0.001 × seed=2
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[607/747] q5_radam_cold_start × soap × lr=0.0001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[608/747] q5_radam_cold_start × soap × lr=0.0001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[609/747] q5_radam_cold_start × soap × lr=0.0001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[610/747] q5_radam_cold_start × soap × lr=0.0003 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[611/747] q5_radam_cold_start × soap × lr=0.0003 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[612/747] q5_radam_cold_start × soap × lr=0.0003 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[613/747] q5_radam_cold_start × soap × lr=0.001 × seed=0
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[614/747] q5_radam_cold_start × soap × lr=0.001 × seed=1
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[615/747] q5_radam_cold_start × soap × lr=0.001 × seed=2
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[616/747] q5_radam_cold_start × naive_yogi_muon × lr=0.0001 × seed=0
+[617/747] q5_radam_cold_start × naive_yogi_muon × lr=0.0001 × seed=1
+[618/747] q5_radam_cold_start × naive_yogi_muon × lr=0.0001 × seed=2
+[619/747] q5_radam_cold_start × naive_yogi_muon × lr=0.0003 × seed=0
+[620/747] q5_radam_cold_start × naive_yogi_muon × lr=0.0003 × seed=1
+[621/747] q5_radam_cold_start × naive_yogi_muon × lr=0.0003 × seed=2
+[622/747] q5_radam_cold_start × naive_yogi_muon × lr=0.001 × seed=0
+[623/747] q5_radam_cold_start × naive_yogi_muon × lr=0.001 × seed=1
+[624/747] q5_radam_cold_start × naive_yogi_muon × lr=0.001 × seed=2
+[625/747] q5_radam_cold_start × naive_yogi_muon × lr=0.003 × seed=0
+[626/747] q5_radam_cold_start × naive_yogi_muon × lr=0.003 × seed=1
+[627/747] q5_radam_cold_start × naive_yogi_muon × lr=0.003 × seed=2
+[628/747] q5_radam_cold_start × muogi × lr=3e-05 × seed=0
+[629/747] q5_radam_cold_start × muogi × lr=3e-05 × seed=1
+[630/747] q5_radam_cold_start × muogi × lr=3e-05 × seed=2
+[631/747] q5_radam_cold_start × muogi × lr=0.0001 × seed=0
+[632/747] q5_radam_cold_start × muogi × lr=0.0001 × seed=1
+[633/747] q5_radam_cold_start × muogi × lr=0.0001 × seed=2
+[634/747] q5_radam_cold_start × muogi × lr=0.0003 × seed=0
+[635/747] q5_radam_cold_start × muogi × lr=0.0003 × seed=1
+[636/747] q5_radam_cold_start × muogi × lr=0.0003 × seed=2
+[637/747] q5_radam_cold_start × muogi × lr=0.001 × seed=0
+[638/747] q5_radam_cold_start × muogi × lr=0.001 × seed=1
+[639/747] q5_radam_cold_start × muogi × lr=0.001 × seed=2
+[640/747] q5_radam_cold_start × ramuogi × lr=3e-05 × seed=0
+[641/747] q5_radam_cold_start × ramuogi × lr=3e-05 × seed=1
+[642/747] q5_radam_cold_start × ramuogi × lr=3e-05 × seed=2
+[643/747] q5_radam_cold_start × ramuogi × lr=0.0001 × seed=0
+[644/747] q5_radam_cold_start × ramuogi × lr=0.0001 × seed=1
+[645/747] q5_radam_cold_start × ramuogi × lr=0.0001 × seed=2
+[646/747] q5_radam_cold_start × ramuogi × lr=0.0003 × seed=0
+[647/747] q5_radam_cold_start × ramuogi × lr=0.0003 × seed=1
+[648/747] q5_radam_cold_start × ramuogi × lr=0.0003 × seed=2
+[649/747] q5_radam_cold_start × ramuogi × lr=0.001 × seed=0
+[650/747] q5_radam_cold_start × ramuogi × lr=0.001 × seed=1
+[651/747] q5_radam_cold_start × ramuogi × lr=0.001 × seed=2
+[652/747] q5_radam_cold_start × liger × lr=1e-05 × seed=0
+[653/747] q5_radam_cold_start × liger × lr=1e-05 × seed=1
+[654/747] q5_radam_cold_start × liger × lr=1e-05 × seed=2
+[655/747] q5_radam_cold_start × liger × lr=3e-05 × seed=0
+[656/747] q5_radam_cold_start × liger × lr=3e-05 × seed=1
+[657/747] q5_radam_cold_start × liger × lr=3e-05 × seed=2
+[658/747] q5_radam_cold_start × liger × lr=0.0001 × seed=0
+[659/747] q5_radam_cold_start × liger × lr=0.0001 × seed=1
+[660/747] q5_radam_cold_start × liger × lr=0.0001 × seed=2
+[661/747] q5_radam_cold_start × liger × lr=0.0003 × seed=0
+[662/747] q5_radam_cold_start × liger × lr=0.0003 × seed=1
+[663/747] q5_radam_cold_start × liger × lr=0.0003 × seed=2
+[664/747] q5_radam_cold_start × racaso × lr=3e-05 × seed=0
+[665/747] q5_radam_cold_start × racaso × lr=3e-05 × seed=1
+[666/747] q5_radam_cold_start × racaso × lr=3e-05 × seed=2
+[667/747] q5_radam_cold_start × racaso × lr=0.0001 × seed=0
+[668/747] q5_radam_cold_start × racaso × lr=0.0001 × seed=1
+[669/747] q5_radam_cold_start × racaso × lr=0.0001 × seed=2
+[670/747] q5_radam_cold_start × racaso × lr=0.0003 × seed=0
+[671/747] q5_radam_cold_start × racaso × lr=0.0003 × seed=1
+[672/747] q5_radam_cold_start × racaso × lr=0.0003 × seed=2
+[673/747] q5_radam_cold_start × racaso × lr=0.001 × seed=0
+[674/747] q5_radam_cold_start × racaso × lr=0.001 × seed=1
+[675/747] q5_radam_cold_start × racaso × lr=0.001 × seed=2
+[676/747] r1_cifar10_resnet18 × adam × lr=0.001 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+[677/747] r1_cifar10_resnet18 × adam × lr=0.001 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+[678/747] r1_cifar10_resnet18 × adamw × lr=0.001 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+[679/747] r1_cifar10_resnet18 × adamw × lr=0.001 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+[680/747] r1_cifar10_resnet18 × yogi × lr=0.001 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+[681/747] r1_cifar10_resnet18 × yogi × lr=0.001 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+[682/747] r1_cifar10_resnet18 × muon × lr=0.0003 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[683/747] r1_cifar10_resnet18 × muon × lr=0.0003 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+  SKIP: muon is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[684/747] r1_cifar10_resnet18 × lion × lr=0.0003 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+[685/747] r1_cifar10_resnet18 × lion × lr=0.0003 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+[686/747] r1_cifar10_resnet18 × sophia × lr=0.0003 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[687/747] r1_cifar10_resnet18 × sophia × lr=0.0003 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+  SKIP: sophia is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[688/747] r1_cifar10_resnet18 × soap × lr=0.0003 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[689/747] r1_cifar10_resnet18 × soap × lr=0.0003 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+  SKIP: soap is not vendored yet; see bench/optimizers/README.md for the canonical source and pinned version to drop into this wrapper before benchmarks run.
+[690/747] r1_cifar10_resnet18 × naive_yogi_muon × lr=0.001 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+[691/747] r1_cifar10_resnet18 × naive_yogi_muon × lr=0.001 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+[692/747] r1_cifar10_resnet18 × muogi × lr=0.0003 × seed=0
+Files already downloaded and verified
+Files already downloaded and verified
+[693/747] r1_cifar10_resnet18 × muogi × lr=0.0003 × seed=1
+Files already downloaded and verified
+Files already downloaded and verified
+[694/747] r1_cifar10_resnet18 × ramuogi × lr=0.0003 × seed=0

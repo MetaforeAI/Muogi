@@ -60,9 +60,18 @@ _PROBLEM_LABELS = {
 }
 
 
+# RACASO excluded from Muogi/RAMuogi's cross-comparison — different
+# problem class than Muogi targets. RACASO's own paper carries its
+# results.
+_EXCLUDED_OPTIMIZERS: set[str] = {"racaso"}
+
+
 def _read_rows(path: Path) -> List[dict]:
     with path.open() as f:
-        return list(csv.DictReader(f))
+        rows = list(csv.DictReader(f))
+    if not _EXCLUDED_OPTIMIZERS:
+        return rows
+    return [r for r in rows if r["optimizer"] not in _EXCLUDED_OPTIMIZERS]
 
 
 def _parse_trajectory(s: str) -> List[float]:

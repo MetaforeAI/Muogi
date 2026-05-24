@@ -49,9 +49,24 @@ _OPTIMIZER_COLORS = {
 }
 
 
+# Per-figure optimizer exclusions for this paper.
+#
+# RACASO is excluded from Muogi/RAMuogi's figures. RACASO's design
+# domain (second-order curvature on saddle/DivBackward0 surfaces) is
+# fundamentally different from Muogi's (spectral preconditioning of
+# orthogonalization-friendly matrices), and RACASO's results — saddle
+# escape on P3, NaN-prevention on P5 — don't belong in figures meant
+# to communicate Muogi's vs Adam-family vs Lion-family comparison.
+# RACASO's own paper carries its full results and figures.
+_EXCLUDED_OPTIMIZERS: set[str] = {"racaso"}
+
+
 def _read_rows(path: Path) -> List[dict]:
     with path.open() as f:
-        return list(csv.DictReader(f))
+        rows = list(csv.DictReader(f))
+    if not _EXCLUDED_OPTIMIZERS:
+        return rows
+    return [r for r in rows if r["optimizer"] not in _EXCLUDED_OPTIMIZERS]
 
 
 def _parse_trajectory(s: str) -> List[float]:
@@ -315,7 +330,14 @@ def main() -> None:
                  "R3 — NanoGPT on WikiText-2: training loss",
                  args.output / "fig_r3_nanogpt.png")
 
-    _safety_counters(rows, args.output / "fig_safety_counters.png")
+    # Safety-counter chart skipped: the harness's _read_safety_counters
+    # reads from optimizer.safety_counts (a dict attribute), but Muogi's
+    # actual telemetry surfaces via state["ns5_success_count"]. The
+    # interesting NS5 telemetry IS captured in the ns5_success_rate
+    # column, which Q4's narrative cites directly. A future harness
+    # patch can wire L1-L5 firing counts through properly; until then,
+    # rendering an all-zeros bar chart would be misleading.
+    # _safety_counters(rows, args.output / "fig_safety_counters.png")
 
 
 if __name__ == "__main__":

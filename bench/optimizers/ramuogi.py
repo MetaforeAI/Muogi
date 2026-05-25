@@ -28,99 +28,28 @@ computed; weights move via momentum-only update.
 
 See ``docs/Muogi_Paper.md`` §11 for design rationale.
 
-Composite Muogi v2 pipeline (when L4 says warmed_up):
+## What RAMuogi adds on top of Muogi
 
-Designed for parameter groups in heterogeneous architectures where
-gradient covariance does not factor as a Kronecker product — typically
-multi-source aggregation layers where one upstream pathway dominates
-others by orders of magnitude per step. See ``RAMuogi_Paper.md``.
+The full Muogi v2 composite pipeline (Yogi additive variance, per-row
+cheater's-choice injection inside NS5, global throttle S, Muon shape
+scale, three-layer L1/L2/L3 safety chain) is documented in
+``muogi.py``'s module docstring and is reused here unchanged when the
+L4 gate is open. **The only delta in RAMuogi is the L4 cold-start
+gate**: RAdam's variance-confidence rectification (Liu et al. 2019)
+applied *upstream* of the Muogi v2 pipeline. Read ``muogi.py`` for
+the Yogi+NS5 mechanics; read this file for the L4 wrapping.
 
-## The unified pipeline (combines options 1 + 2 + cheater's choice)
+L4 in one sentence: compute RAdam's ``rho_t``; if ``rho_t <= 4`` the
+variance estimate is too uncertain to drive the spectral path, so
+skip R, NS5, and S entirely and apply a momentum-only SGD-style
+update; otherwise run the full Muogi v2 step with the final update
+multiplied by RAdam's rectification scalar ``r_t``.
 
-The plain Yogi→Muon diagram (feed ``m_hat / sqrt(v_hat)`` directly
-into NS5) destroys Yogi's per-element variance tracking — NS5
-averages the burst-aware scaling into a spectral mean and the
-bursty-safety guarantee is gone.
-
-Three options for re-inserting Yogi's signal correctly (full
-discussion in ``docs/muogi_paper_notes.md``):
-
-  Option 1 — Scalar throttle.  η_eff = lr / (mean(sqrt(v_hat)) + ε)
-            applied after NS5. Preserves orthogonality 100%, no
-            directional sensitivity.
-  Option 2 — Per-row vector.  η_eff[i] = lr / (mean_j sqrt(v_hat[i,j])
-            + ε), applied after NS5. Preserves Yogi's row-burst
-            tracking, breaks strict orthogonality.
-  Option 3 — Per-singular-direction.  Project sqrt(v_hat) into U,V
-            bases of NS5 output. Theoretically pure, requires SVD,
-            dead on arrival.
-  Cheater's choice — Inject scaling INSIDE the NS5 loop. Each NS5
-            iteration's polynomial drags the matrix back toward polar
-            decomposition, so injecting Yogi's variance before that
-            polynomial biases the convergence direction without
-            requiring an SVD.
-
-Muogi combines all three viable options:
-
-    1.  Per-row scale R_i injected at the TOP of each NS5 iteration
-        (option 2 + cheater's choice). Biases each iteration toward
-        low-variance rows; NS5's polynomial then drags toward polar
-        decomposition. Result is "mostly orthogonal but slanted
-        toward the rows Yogi marked safe."
-
-    2.  NS5 polynomial (standard a·X + b·A·X + c·A²·X with the
-        Jordan coefficients). 5 iterations.
-
-    3.  Global scalar S = 1/(mean(sqrt(v_hat)) + ε) applied at the
-        output (option 1). Master throttle on overall layer
-        volatility.
-
-    4.  Muon shape scale sqrt(max(1, m/n)).
-
-    5.  Apply: p -= lr * S * (NS5(R · m_hat) * shape_scale).
-
-For 1-D parameters: vanilla Yogi (no NS5).
-
-## Mathematical pipeline (2-D path)
-
-Let G be the raw gradient and V Yogi's accumulated variance.
-
-    m_t  = β1 · m_{t-1} + (1 - β1) · g_t
-    v_t  = v_{t-1} - (1 - β2) · sign(v_{t-1} - g²) · g²
-
-    m_hat = m_t / (1 - β1^t)
-    v_hat = v_t / (1 - β2^t)
-
-    sqrt_v   = sqrt(v_hat)
-    R_i      = 1 / (mean_j(sqrt_v[i,:]).clamp(ε_yogi) + ε_adam)
-    S        = 1 / (mean(sqrt_v).clamp(ε_yogi) + ε_adam)
-
-    X = m_hat
-    for k in range(ns5_iters):
-        X = R[:, None] * X                     # per-row inject (cheater's choice)
-        A = X @ X.T
-        X = a·X + (b·A + c·A²) @ X             # NS5 polynomial
-
-    update = X * sqrt(max(1, m/n)) * S         # shape scale + global throttle
-    p -= lr * update
-
-## Five mitigations
-
-1.  **ε_yogi floor** on both R and S — caps step magnitude when a
-    row's (or the entire matrix's) variance history is tiny.
-2.  **NS5 stability check** — track ‖X_k − X_{k-1}‖_F across
-    iterations; if the delta isn't shrinking, treat as non-converged
-    and fall back to vanilla Yogi. (Unlike standard NS5 we cannot
-    test ‖XX^T − I‖ because the row-scale injection means the
-    converged matrix is D·O, not O.)
-3.  **Adaptive NS5 frequency** — time trigger (every ns5_freq steps)
-    composed with a condition trigger (row-norm max/min ratio jump
-    > ns5_cond_ratio_threshold × last seen).
-4.  **1-D fallback** to vanilla Yogi (no NS5 attempt).
-5.  **Shared momentum buffer** — ``exp_avg`` serves both as Yogi's
-    m_t and as NS5's input; memory footprint matches Yogi exactly.
-
-See ``docs/Muogi_Paper.md`` for design rationale and empirical results.
+See ``RAMuogi_Paper.md`` §4 for the design rationale and §9.4 for the
+seed-stabilization result that motivates the gate (Muogi alone is
+seed-bimodal on the Q4 NS5-stress problem at 1.000 / 0.006 / 0.006
+NS5 success rate across three seeds; RAMuogi with L4 closed is
+1.000 / 1.000 / 1.000 across the same seeds).
 """
 
 from __future__ import annotations
@@ -580,4 +509,19 @@ class RAMuogi(Optimizer):
             "last_global_scale": last_global_scale,
             "last_r_t": last_r_t,
             "num_2d_params": num_2d,
+        }
+
+    def get_safety_counts(self) -> dict:
+        """Return the L1-L5 safety-chain counter dict consumed by the bench harness.
+
+        RAMuogi extends Muogi's chain with L4 (RAdam cold-start gate).
+        L1/L3/L5 remain silent paths (degradations, not increments).
+        """
+        tel = self.get_telemetry()
+        return {
+            "l1": 0,
+            "l2": tel["ns5_skip_count"],
+            "l3": 0,
+            "l4": tel["rectification_skip_count"],
+            "l5": 0,
         }

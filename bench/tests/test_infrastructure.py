@@ -117,17 +117,31 @@ def test_benchproblem_converged_default():
 # ---------------------------------------------------------------------------
 
 
-_IMPLEMENTED_BASELINES = ("adam", "adamw", "yogi", "naive_yogi_muon")
+_IMPLEMENTED_BASELINES = (
+    "adam",
+    "adamw",
+    "yogi",
+    "lion",
+    "muon",
+    "naive_yogi_muon",
+    "liger",
+    "racaso",
+    "muogi",
+    "ramuogi",
+)
 
 
 @pytest.mark.parametrize("name", _IMPLEMENTED_BASELINES)
 def test_build_optimizer_returns_optimizer(name: str):
-    params = [torch.randn(3, requires_grad=True)]
+    # Use a 2-D param so optimizers that branch on ndim (Muon, Muogi)
+    # exercise their 2-D path. The 1-D path is covered indirectly by
+    # the Muogi/RAMuogi unit-test suites.
+    params = [torch.randn(4, 4, requires_grad=True)]
     opt = build_optimizer(name, params, lr=1e-3)
     assert isinstance(opt, torch.optim.Optimizer)
 
 
-@pytest.mark.parametrize("name", ("muon", "lion", "sophia", "soap"))
+@pytest.mark.parametrize("name", ("sophia", "soap"))
 def test_build_optimizer_not_vendored_raises(name: str):
     params = [torch.randn(3, requires_grad=True)]
     with pytest.raises(NotImplementedError) as excinfo:
@@ -166,7 +180,7 @@ def test_build_optimizer_rejects_nonpositive_lr():
         build_optimizer("adam", params, lr=0.0)
 
 
-def test_known_optimizers_includes_all_ten():
+def test_known_optimizers_includes_all_twelve():
     expected = {
         "adam",
         "adamw",
@@ -178,6 +192,8 @@ def test_known_optimizers_includes_all_ten():
         "naive_yogi_muon",
         "muogi",
         "ramuogi",
+        "liger",
+        "racaso",
     }
     assert set(KNOWN_OPTIMIZERS) == expected
 

@@ -75,6 +75,7 @@ LR_SWEEP_BY_OPT: Dict[str, tuple[float, ...]] = {
     "yogi":            (1e-4, 3e-4, 1e-3, 3e-3),
     "lion":            (1e-5, 3e-5, 1e-4, 3e-4),
     "liger":           (1e-5, 3e-5, 1e-4, 3e-4),
+    "muon":            (1e-5, 3e-5, 1e-4, 3e-4),
     "muogi":           (3e-5, 1e-4, 3e-4, 1e-3),
     "ramuogi":         (3e-5, 1e-4, 3e-4, 1e-3),
     "racaso":          (3e-5, 1e-4, 3e-4, 1e-3),
@@ -91,6 +92,7 @@ _REAL_TASK_LR: Dict[str, tuple[float, ...]] = {
     "yogi":            (1e-3,),
     "lion":            (3e-4,),
     "liger":           (3e-4,),
+    "muon":            (3e-4,),
     "muogi":           (3e-4,),
     "ramuogi":         (3e-4,),
     "racaso":          (3e-4,),
@@ -130,12 +132,27 @@ def _registered_problems() -> Dict[str, type[BenchProblem]]:
 def _read_safety_counters(optimizer: torch.optim.Optimizer) -> Dict[str, int]:
     """Pull Muogi/RAMuogi safety-chain counters off the optimizer if exposed.
 
-    Returns a dict with l1..l5 keys, defaulting to 0. Muogi/RAMuogi
-    expose counters at ``optimizer.safety_counts`` (a dict keyed
-    ``l1``..``l5``). Non-Muogi optimizers return zeros.
+    Returns a dict with l1..l5 keys, defaulting to 0. Resolution order:
+      1. ``optimizer.get_safety_counts()`` if callable (Muogi/RAMuogi).
+      2. ``optimizer.safety_counts`` if it is a dict (legacy attribute
+         convention; not currently used by Muogi/RAMuogi but supported
+         in case a future optimizer wires it that way).
+      3. Zeros for non-Muogi-family optimizers.
     """
     counters: Dict[str, int] = {f"l{i}_count": 0 for i in range(1, 6)}
-    raw = getattr(optimizer, "safety_counts", None)
+    raw = None
+    getter = getattr(optimizer, "get_safety_counts", None)
+    if callable(getter):
+        try:
+            candidate = getter()
+        except Exception:
+            candidate = None
+        if isinstance(candidate, dict):
+            raw = candidate
+    if raw is None:
+        attr = getattr(optimizer, "safety_counts", None)
+        if isinstance(attr, dict):
+            raw = attr
     if isinstance(raw, dict):
         for k in ("l1", "l2", "l3", "l4", "l5"):
             v = raw.get(k, 0)
@@ -171,7 +188,10 @@ def _read_muogi_telemetry(
         if isinstance(succ, (int, float)) and isinstance(skip, (int, float)):
             ns5_success += int(succ)
             ns5_attempts += int(succ) + int(skip)
-        r_t = p_state.get("r_t")
+        # RAMuogi stores per-param r_t as ``last_r_t``; older drafts used
+        # the bare key ``r_t``. Honour both so the harness reads non-zero
+        # values from any future variant that uses the shorter key.
+        r_t = p_state.get("last_r_t", p_state.get("r_t"))
         if isinstance(r_t, (int, float)):
             r_t_vals.append(float(r_t))
         elif isinstance(r_t, torch.Tensor) and r_t.numel() == 1:

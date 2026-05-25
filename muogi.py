@@ -488,3 +488,20 @@ class Muogi(Optimizer):
             "last_global_scale": last_global_scale,
             "num_2d_params": num_2d,
         }
+
+    def get_safety_counts(self) -> dict:
+        """Return the L1-L5 safety-chain counter dict consumed by the bench harness.
+
+        Muogi has no L4 gate (that is RAMuogi's contribution) and L1/L3/L5
+        are silent paths (degradations, not increments) so only L2 carries
+        a positive count. L1/L3/L4/L5 are reported as 0 for schema parity
+        with RAMuogi's get_safety_counts().
+        """
+        tel = self.get_telemetry()
+        return {
+            "l1": 0,
+            "l2": tel["ns5_skip_count"],
+            "l3": 0,
+            "l4": 0,
+            "l5": 0,
+        }

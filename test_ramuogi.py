@@ -229,3 +229,30 @@ def test_ramuogi_stability_under_burst():
         p.grad = g
         opt.step()
         assert torch.isfinite(p).all(), f"NaN at step {t}"
+
+
+# ── 9. Safety-counts dict for bench harness ────────────────────────────
+
+
+def test_ramuogi_get_safety_counts_l4_populated_after_steps():
+    """RAMuogi's get_safety_counts must populate the L4 counter as soon
+    as the cold-start gate fires (which it does for the first ~4 steps
+    by construction). This guards against the bench-harness regression
+    where the CSV's l4_count column was uniformly 0 because the harness
+    was reading a nonexistent ``safety_counts`` attribute.
+    """
+    p = _make_2d_param(4, 8)
+    opt = RAMuogi([p], lr=1e-3)
+    # Cold-start: rho_t <= 4 for the first few steps with beta2=0.999.
+    for _ in range(6):
+        p.grad = torch.randn_like(p) * 0.01
+        opt.step()
+    counts = opt.get_safety_counts()
+    assert isinstance(counts, dict)
+    for k in ("l1", "l2", "l3", "l4", "l5"):
+        assert k in counts, f"missing key {k} in get_safety_counts()"
+        assert isinstance(counts[k], int)
+    # L4 must have fired at least once (cold start always triggers it).
+    assert counts["l4"] > 0, (
+        f"L4 cold-start counter never incremented: counts={counts}"
+    )

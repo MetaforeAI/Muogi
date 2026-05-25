@@ -33,8 +33,8 @@ Canonical configs (single source of truth — see ``README.md``):
                         — bench/optimizers/liger.py (sibling repo, vendored)
     racaso            : RACASO(lr, default RACASO config)
                         — bench/optimizers/racaso.py (sibling repo, vendored)
-    muon              : NotImplementedError until vendored from the
-                        Keller Jordan reference implementation
+    muon              : Muon(lr, momentum=0.95, nesterov=True, ns_steps=5)
+                        — bench/optimizers/muon.py (Keller Jordan, MIT)
     sophia            : NotImplementedError until vendored from the
                         official Sophia repo
     soap              : NotImplementedError until vendored from Vyas et al.
@@ -141,6 +141,18 @@ def _build_racaso(params: List[torch.Tensor], lr: float) -> torch.optim.Optimize
     return RACASO(params, lr=lr)
 
 
+def _build_muon(params: List[torch.Tensor], lr: float) -> torch.optim.Optimizer:
+    from bench.optimizers.muon import Muon
+
+    return Muon(
+        params,
+        lr=lr,
+        momentum=0.95,
+        nesterov=True,
+        ns_steps=5,
+    )
+
+
 def build_optimizer(
     name: str, params: List[torch.Tensor], lr: float
 ) -> torch.optim.Optimizer:
@@ -179,10 +191,11 @@ def build_optimizer(
         "ramuogi": _build_ramuogi,
         "liger": _build_liger,
         "racaso": _build_racaso,
+        "muon": _build_muon,
     }
     if name in builders:
         return builders[name](params, lr)
-    if name in ("muon", "sophia", "soap"):
+    if name in ("sophia", "soap"):
         raise NotImplementedError(_vendor_pointer(name))
 
     raise AssertionError(f"unreachable: optimizer {name} not dispatched")

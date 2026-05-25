@@ -627,3 +627,29 @@ def test_safety_fallback_chain_is_complete():
     opt3 = Muogi([p3], lr=1e-4, spread_cap=10.0)
     opt3.step()
     assert torch.isfinite(p3).all(), "Layer 1 (spread_cap) failed under extreme burst"
+
+
+# ── 16. Safety-counts dict for bench harness ──────────────────────────
+
+
+def test_muogi_get_safety_counts_returns_dict_with_l_keys():
+    """The bench harness reads safety-chain counters via
+    ``optimizer.get_safety_counts()``. The method must exist on Muogi,
+    must return a dict, and must carry l1..l5 keys (with int values)
+    so the harness's CSV columns are populated correctly. Muogi has no
+    L4 gate so l4 is always 0 here; RAMuogi extends this contract.
+    """
+    p = _make_2d_param(4, 8)
+    p.grad = torch.randn_like(p)
+    opt = Muogi([p], lr=1e-3)
+    # Method must exist before stepping (clean state should still be queryable).
+    assert hasattr(opt, "get_safety_counts")
+    counts = opt.get_safety_counts()
+    assert isinstance(counts, dict)
+    for k in ("l1", "l2", "l3", "l4", "l5"):
+        assert k in counts, f"missing key {k} in get_safety_counts()"
+        assert isinstance(counts[k], int), f"{k} not int: {type(counts[k])}"
+    # Muogi has no L4 gate; it is identically zero across the lifecycle.
+    opt.step()
+    counts_after = opt.get_safety_counts()
+    assert counts_after["l4"] == 0

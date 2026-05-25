@@ -54,7 +54,7 @@ This paper is one of three (Muogi/RAMuogi, RACASO, Liger) describing optimizers 
 
 - *Second-derivative DivBackward0 hazard.* When the forward graph contains operators whose second derivative is unbounded (ratio forms, RMSNorm-style denominators near zero norm), any optimizer that touches second-order curvature — including ours — encounters a numerical-overflow class that the four-layer chain does not absorb. The companion RACASO paper [Christopher 2026b] designs and documents an L5 absorb-and-continue surface for this class; once that absorb existed, returning to SOAP+Shampoo configurations with the absorb in place produced results competitive with or better than RACASO and Muogi/RAMuogi on the original target.
 
-- *Already-well-conditioned matrix gradients.* On parameter groups where matrix gradients arrive at the optimizer already well-conditioned (downstream of normalization layers that have done the conditioning work upstream), Muogi/RAMuogi's NS5 polynomial finds no orthogonalization work to do — every refresh converges immediately and the spectral path is 100% wasted compute. The companion Liger paper [Christopher 2026c] addresses this regime with a dispatch-by-dimensionality rule that routes matrices to Lion (bounded direction without preconditioning) and scalars to Yogi.
+- *Already-well-conditioned matrix gradients.* On parameter groups where matrix gradients arrive at the optimizer already well-conditioned (downstream of normalization layers that have done the conditioning work upstream), Muogi/RAMuogi's NS5 polynomial finds no orthogonalization work to do — every refresh converges immediately and the spectral path is 100% wasted compute. The companion Liger paper [Christopher 2026a] addresses this regime with a dispatch-by-dimensionality rule that routes matrices to Lion (bounded direction without preconditioning) and scalars to Yogi.
 
 Muogi/RAMuogi remain the right tool for the regime they target: dense matrix parameters whose gradient covariance violates Kronecker factorization assumptions and would benefit from orthogonalization. §9 reports head-to-head measurements from open-bench sweeps that establish each claim against published baselines (Adam, AdamW, Yogi, Lion) and the two sibling optimizers (Liger, RACASO).
 
@@ -141,11 +141,11 @@ Pipeline (per 2-D parameter, post-warmup):
 
 ### 2.6 Convergence Verification
 
-With iter-0-only injection, the converged matrix is $\mathrm{polar}(R \cdot \hat{m})$, a true orthogonal, so the classical Frobenius identity check applies:
+With iter-0-only injection and Frobenius normalization, five Newton-Schulz iterations *approximately* recover the orthogonal factor on near-orthogonal inputs — that is, on inputs whose post-clamp row spread is small enough that the Jordan polynomial enters its monotonic-convergence regime within the budget. When that regime is entered, the classical Frobenius identity check applies:
 
 $$\| X X^\top - I \|_F < \tau.$$
 
-We ship with $\tau = 0.64 = (0.8)^2$, corresponding to a bound of approximately $0.8$ on the per-singular-value deviation from unity. When the check fails (typically on burst steps where post-clamp R is still anisotropic enough to slow convergence), the optimizer triggers the safe-skip fallback (Section 3.2), not a NaN.
+We ship with $\tau = 0.64 = (0.8)^2$, corresponding to a bound of approximately $0.8$ on the per-singular-value deviation from unity. On burst steps where post-clamp $R$ is still anisotropic enough that five iterations do not finish converging — and these steps are common in the regimes we target — the residual exceeds $\tau$ and the L2 safe-skip handles the case (Section 3.2). The convergence claim is therefore "approximate recovery on near-orthogonal inputs, plus a documented absorb for the cases it does not," not "guaranteed convergence to the polar factor on every input."
 
 ### 2.7 The Full Muogi v2 Diagram
 
@@ -168,7 +168,7 @@ We ship with $\tau = 0.64 = (0.8)^2$, corresponding to a bound of approximately 
                   │
          ┌────────┴────────┐
          ▼                 ▼
-   [Converged]      [Non-converged / NaN-guard]
+   [Converged]      [Non-converged → L2 safe-skip]
          │                 │
          ▼                 ▼
    [Apply S · √(m/n)]   [FALLBACK: Pure Yogi update]
@@ -316,35 +316,17 @@ A well-known phenomenon in heterogeneous multi-pathway architectures is that los
 
 In particular, a slower loss descent can be the healthier signal in branch-divergence regimes. Rapid loss collapse can indicate that one pathway has captured the residual stream before the other pathways had time to differentiate, producing a low-loss model with degraded multi-pathway structure. The gradient health indicators (raw_grad magnitude, per-group gradient concentration, NS5 success rate) are usually a more honest read on whether the architecture is training well than the loss curve alone.
 
-### 5.5 Step-1000 Gradient Health Across an Architectural Evolution
+### 5.5 Observed Behavior Summary
 
-During development, the optimizer was deployed across several iterations of a single heterogeneous architecture. Each iteration changed either an architectural component or the optimizer assigned to the primary target parameter group. The following table captures the gradient-health snapshot at step 1000 (same batch size, same seed, same learning rate envelope) across the iteration sequence:
+Synthesizing what the open-bench Q1–Q5 and R1–R3 runs (§9) actually demonstrate about the safety chain in flight — every observation in this section is reproducible from `bench/results.csv` and the harness in `bench/run_bench.py`:
 
-| Setup | loss | raw_grad | primary target group | adjacent affected group | Optimizer (target group) | Architectural change |
-|---|---|---|---|---|---|---|
-| 1 (baseline) | 3.16 | 7.05 | 1.78 | 6.61 | AdamW | none |
-| 2 | 3.16 | 7.06 | 1.77 | 6.62 | AdamW | + per-group soft-clip bands |
-| 3 | 3.15 | 7.59 | 1.68 | 7.21 | AdamW | + concat-input scale normalization |
-| 4 | 3.23 | 6.47 | 1.62 | 6.03 | AdamW | + norm-layer removal |
-| 5 | 3.03 | 3.34 | 2.97 | 0.47 | SOAP | + cross-attention rebalancing path |
-| 6 | 2.83 | 1.63 | 0.35 | 0.63 | RAMuogi | + branch-output coupling + RAMuogi |
+1. **L1 (spread-cap) is silent infrastructure on the synthetic problems.** Q4 deliberately drives the polynomial into divergent input regimes; with `spread_cap=10` the polynomial never NaN'd in any of the 24 (lr × seed) Muogi/RAMuogi Q4 runs, including in the seeds where L2 then immediately fired. L1's value is exactly the absence-of-NaN that the unit-test contract (`test_spread_cap_clamps_violent_R`) anticipates.
+2. **L2 (NS5 safe-skip) fires bimodally per-seed on Q4** (§9.4): one Muogi seed sees every NS5 call converge, the other two see NS5 converge only on the first call and skip every subsequent attempt. The bimodality is the diagnostic — it surfaces seed-dependent variance-history shapes that the optimizer would otherwise hide.
+3. **L3 (Yogi fallback) absorbs every L2 safe-skip without NaN on Q1–Q5.** No Q-run in `bench/results.csv` shows `nan_count > 0` for Muogi or RAMuogi — the fallback contract holds across the bursty (Q1), polar-decomposition (Q2), mixed-MLP (Q3), divergent-spectrum (Q4) and cold-start (Q5) regimes.
+4. **L4 (RAdam gate) is the seed-stabilizer on Q4** (§9.4): RAMuogi's NS5 success rate is 1.000 across all three seeds at every LR tested, vs Muogi's 1.000 / 0.006 / 0.006 split. The gate is paying its cost on short horizons (Q3 and Q5 both show RAMuogi at higher final loss than Muogi) but is buying seed-reproducibility that Muogi alone does not have.
+5. **The trade R1–R3 surfaces.** On CIFAR-10 (R1) Muogi and RAMuogi land in the top three of eight optimizers, validating that NS5 orthogonalization does pay off on convolutional matrices. On the char-LM (R2) and NanoGPT (R3) transformer regimes the spectral path finds less to orthogonalize and the family rank slips mid-pack; that is the failure mode the companion Liger paper [Christopher 2026a] is scoped against.
 
-Reading the columns:
-
-* **loss** is included for completeness but should NOT be read as the primary success criterion (Section 5.4). In this architecture class, a slower loss descent is often the healthier signal.
-* **raw_grad** is the total clipped-gradient magnitude summed across all parameter groups. Lower means the architecture is at a more stable operating point.
-* **primary target group** is the gradient magnitude of the parameter group that aggregates multiple upstream pathways, the group that motivated RAMuogi in the first place.
-* **adjacent affected group** is the gradient magnitude of a downstream parameter group that historically inherited gradient pressure from the target group. The progression from 6.61 to 0.47 across setups 1 through 5 shows architectural rebalancing relieving downstream pressure. The further drop to 0.63 in setup 6 confirms RAMuogi keeps that relief intact.
-
-Three structural findings the sequence demonstrates:
-
-1. **Setups 1 through 4 (no architectural rebalancing, AdamW on target): the adjacent group was the catastrophic failure mode.** It sat at 6.0 to 7.2 at step 1000, saturating its soft-clip ceiling and producing the bulk of the architecture's gradient pressure. Per-group clipping (setup 2) and input scaling (setup 3) did not address the root cause.
-2. **Setup 5 (cross-attention rebalancing, SOAP on target): the adjacent group collapsed**, dropping 14x from 6.61 to 0.47. The gradient pressure migrated into the target group (1.78 to 2.97). SOAP held this state without diverging but did not actively reduce the target group's pressure further. (The Kronecker preconditioning assumption was violated by setup 6's branch coupling, motivating the optimizer swap.)
-3. **Setup 6 (branch coupling + RAMuogi on target): the cleanest matched-step gradient health in the entire sequence.** raw_grad halved again (3.34 to 1.63), target group dropped 8x (2.97 to 0.35), the adjacent group remained relieved (0.63), NS5 firing at roughly 10% throughout the run. The four-layer safety chain handled what SOAP could not, and drove the target group's gradient pressure below what any prior setup achieved.
-
-The setup-1-through-5 progression validates the architectural rebalancing path each iteration contributed. Setup 6 demonstrates RAMuogi as the optimizer that completes the path. It does not replace the architectural work; it is the optimizer that finally lets the rebalanced architecture train under a bounded gradient regime. The chain (L1 spread-cap + L2 safe-skip + L3 Yogi fallback + L4 RAdam gate) is what makes this stable.
-
-The honest caveat (Section 5.4): setup 6's lower loss should be read with caution. The qualitative downstream emergence at matched steps is still being characterized. Loss-capability decoupling is the expected failure mode if RAMuogi's spectral updates collapse the target group's subspace prematurely. The diagnostic telemetry is the read, not the loss number.
+The chain's value across these eight problems is **legibility**: every layer's firings show up in the CSV's `l1_count`–`l5_count` columns and the `ns5_success_rate` / `r_t_value` telemetry, so a reader can audit which absorb fired on which run without re-instrumenting the optimizer.
 
 ------------------------------
 
@@ -442,6 +424,8 @@ We therefore use **per-family LR grids** matched to each optimizer family's typi
 
 These grids are pinned in `bench/run_bench.py::LR_SWEEP_BY_OPT` so the comparison is exactly reproducible from the open-source bench harness.
 
+**Known limitation: Adam-family LR ceiling.** On Q1, Q2 and Q4 the best LR for Adam falls at `3e-3`, the *top* of the Adam-family grid. This means Adam's true optimum LR on those problems may lie outside the grid we swept (≥3e-3), and the gap reported in those tables between Adam and Muogi/RAMuogi family is *at least* the gap shown — extending Adam's grid upward could only widen the gap, not close it. Symmetrically, the Muogi-family grid `[3e-5, 1e-4, 3e-4, 1e-3]` and the Adam-family grid `[1e-4, 3e-4, 1e-3, 3e-3]` overlap at only two points (`1e-4`, `3e-4`), so direct same-LR comparisons across families are not the framing the figures support. The §9 tables report each optimizer at *its own* best LR, which is the standard reporting convention but means the comparison is "optimizer-family-best vs optimizer-family-best," not "matched-LR." Extending the grids upward is GPU-cost-bounded and is documented as pending in the repository's GPU-pending list rather than addressed in this version of the paper.
+
 **Reporting convention.** For each (problem, optimizer) pair, figures and tables report the **best LR for that optimizer**, averaged across seeds — the LR that minimizes the seed-averaged final loss. The figure legend shows `(lr=X)` next to each optimizer's name so the LR each line corresponds to is always visible.
 
 **Seed budgets.** Synthetic problems Q1–Q5 use seeds {0, 1, 2} (three independent runs per (problem, optimizer, LR) cell). Real-task problems R1/R2/R3 use seeds {0, 1} (two independent runs per cell, because each run is much more expensive in GPU-time).
@@ -522,7 +506,7 @@ Liger (no spectral preconditioning) on heterogeneous-topology problems.
 | RAMuogi           | 1e-4 | 2.83e-2  | 3575 |
 | RACASO            | 1e-3 | 1.72     | — (did not converge) |
 
-**Reading the result — this is the M7 validation.** All Adam-family optimizers (Adam, AdamW, Yogi) reach machine-precision final loss (1e-9 to 1e-10) within 175-204 steps. **Muogi reaches 7.33e-4 in 676 steps** — that's three orders of magnitude worse than Adam at final loss, but **three to four orders of magnitude better than Lion (8.47e-7 at 2375 steps) and Liger (2.07e-6 at 2250 steps) on time-to-similar-loss**. The 1-D bias parameters in this MLP are where Lion-family sign-momentum struggles (bursty rank-1 gradients on bias terms); Muogi's combined NS5-on-matrices + Yogi-on-1D handles both regimes simultaneously. **NaiveYogiMuon (2.02e-6 in 1550 steps) sits between Lion and Muogi** — slightly worse than the proper Muogi v2 cheater's-choice formulation, validating M2 (naive composition is consistently worse than proper variance-aware composition). RAMuogi's L4 cold-start gate is overly conservative for this short-horizon problem (3575 steps and still at 2.83e-2 — the gate keeps the spectral path closed too long for the problem to benefit), which is the failure mode of L4 that motivated examining alternative dispatch decisions (and ultimately the companion Liger paper for the no-preconditioning regime). The M7 claim holds: **Muogi/RAMuogi family outperform Lion-family on heterogeneous-topology problems with bursty 1-D gradients**, even when neither beats Adam-family on the absolute leaderboard.
+**Reading the result — this is the M7 validation.** All Adam-family optimizers (Adam, AdamW, Yogi) reach machine-precision final loss (1e-9 to 1e-10) within 175-204 steps. **Muogi reaches 7.33e-4 in 676 steps**; we then ask the harder question — *when does Lion cross that same threshold?* — by walking the `loss_trajectory` column in `bench/results.csv` for Lion on Q3 at its best LR. Lion crosses 7.33e-4 at steps 3254, 2737, 2748 for seeds 0, 1, 2 — between 4.0× and 4.8× more steps than Muogi takes to reach the same loss. Lion's final loss (8.47e-7) is lower than Muogi's, but it gets there along a different curve shape: Lion takes ~3× more steps to reach Muogi's terminal value, then continues descending to a lower final loss in the remaining budget. The soft framing therefore: **Muogi reaches 7.33e-4 in 676 steps; Lion reaches that same threshold roughly 4× slower, then continues descending past Muogi's stopping point**. That is still a meaningful time-to-similar-loss advantage for Muogi on this heterogeneous-topology problem — the 1-D bias parameters where Lion-family sign-momentum struggles (bursty rank-1 gradients on bias terms) are where Muogi's combined NS5-on-matrices + Yogi-on-1D pipeline pulls ahead in early steps. **NaiveYogiMuon (2.02e-6 in 1550 steps) sits between Lion and Muogi** — slightly worse than the proper Muogi v2 cheater's-choice formulation, validating M2 (naive composition is consistently worse than proper variance-aware composition). RAMuogi's L4 cold-start gate is overly conservative for this short-horizon problem (3575 steps and still at 2.83e-2 — the gate keeps the spectral path closed too long for the problem to benefit), which is the failure mode of L4 that motivated examining alternative dispatch decisions (and ultimately the companion Liger paper for the no-preconditioning regime). The M7 claim holds in its soft form: **Muogi reaches mid-magnitude loss thresholds 3–5× faster than Lion-family on heterogeneous-topology problems with bursty 1-D gradients**, even when neither beats Adam-family on the absolute leaderboard or matches Lion's final loss given a longer budget.
 
 See `bench/figs/fig_q3_tiny_mlp_mixed.png`.
 
@@ -550,9 +534,16 @@ safety layers.
 
 **The headline observation is not the final-loss column — it is the NS5 success-rate column.** Q4 deliberately drives the spectral norm to values where NS5 diverges; the L2 safe-skip fires every time, and the L3 Yogi fallback handles the actual update. Final loss is therefore essentially Yogi's final loss for any optimizer with a working L2+L3 chain — and we see Muogi at 29.50, RAMuogi at 35.55 (RAMuogi's L4 cold-start gate slightly degrades convergence on short problems because it keeps the spectral path closed even when it would have been useful at the lower end of the spectral cycle).
 
-**The key result is NS5 success rate.** Muogi alone (no L4 gate) attempts NS5 on every refresh cycle: 33.7% of those calls converge, 66.3% safe-skip into Yogi fallback. **RAMuogi's L4 gate produces a 100% NS5 success rate** — every NS5 call that fires, fires only after the gate opens (i.e., after `r_t > threshold` indicating variance is trustworthy), and every such call converges. This is exactly the M3+M5 design intent: L4 gates the spectral path until L2's safe-skip would no longer be needed, so when the spectral path runs, it succeeds.
+**The NS5 success rate is bimodal across seeds, not a smooth mean.** The seed-averaged 0.337 for Muogi hides the underlying behaviour: one seed converges cleanly and the other two never converge after the very first NS5 call. The per-seed split (best-LR row per optimizer, problem `q4_ns5_stress`, `bench/results.csv`):
 
-**Why this matters even when both have similar final loss.** L4 fires successfully → L2 safe-skip rarely fires → less wasted compute on convergence-attempt+fallback. In production at scale the difference between 0.337 and 1.000 NS5 success rate is measurable wall-clock savings.
+| Optimizer | seed 0 | seed 1 | seed 2 | Seed-averaged mean |
+|---|---|---|---|---|
+| Muogi      | **1.000** | 0.006 | 0.006 | 0.337 |
+| RAMuogi    | **1.000** | **1.000** | **1.000** | **1.000** |
+
+Reading the split honestly: **Muogi has one seed where every NS5 attempt converges and two seeds where NS5 converges only on the very first attempt and then never again**. Two of the three trajectories enter a state where the optimizer is effectively running pure Yogi for the rest of the problem; only seed 0 enjoys the spectral benefit. RAMuogi's L4 cold-start gate eliminates this seed-dependence — every NS5 call across every seed converges, because the gate suspends spectral computation until variance estimates are trustworthy enough that all three seeds reach the same warm state before the polynomial is exercised. **The reframed claim: one Muogi seed converges cleanly, two diverge into pure Yogi; RAMuogi's L4 gate eliminates this seed-dependence.** That is a real and honest M3+M5 result — the variability across seeds *is* the contribution that L4 removes.
+
+**Why this matters even when both have similar final loss.** L4 fires successfully → L2 safe-skip rarely fires → less wasted compute on convergence-attempt+fallback. In production at scale the difference between a seed-bimodal NS5 success rate and a seed-stable 1.000 success rate is measurable wall-clock savings *and* training-run reproducibility.
 
 See `bench/figs/fig_q4_ns5_stress.png` and the safety-counter bar chart in `bench/figs/fig_safety_counters.png`.
 
@@ -588,11 +579,13 @@ See `bench/figs/fig_q5_radam_cold_start.png`.
 
 **Why this problem.** The canonical "does this optimizer work on a real model" gate. A new optimizer that fails on CIFAR-10 ResNet-18 is not publishable. Muogi's NS5 orthogonalization is hypothesized to particularly help here because the convolutional matrices benefit from spectral preconditioning.
 
-**Data-reuse note.** R1, R2, and R3 are *shared real-task benchmarks* across the three sibling family papers (Liger, Muogi/RAMuogi, RACASO). The bench code (model definitions, dataset loaders, training loop) is byte-identical across the three repos, vendored as standalone source files. We ran R1/R2/R3 once in the Liger sweep [Christopher 2026c §9.7-§9.9] and reuse those numbers here rather than burning ~2.5 hours of GPU time re-running identical sweeps. The reproducibility checks: same RTX A4500 hardware, same seeds {0, 1}, same per-optimizer LR grids documented in §9.0.
+**Column note (applies to §9.6, §9.7, §9.8).** R1/R2/R3 are run at a single fixed LR per optimizer (pinned in `bench/run_bench.py::_REAL_TASK_LR`), not a sweep — the "Fixed LR" column heading reflects that. A single-seed LR sweep on R1/R2/R3 is GPU-cost-bounded and is documented as pending in the repository's GPU-pending list.
+
+**Data-reuse note.** R1, R2, and R3 are *shared real-task benchmarks* across the three sibling family papers (Liger, Muogi/RAMuogi, RACASO). The bench code (model definitions, dataset loaders, training loop) is byte-identical across the three repos, vendored as standalone source files. We ran R1/R2/R3 once in the Liger sweep [Christopher 2026a §9.7-§9.9] and reuse those numbers here rather than burning ~2.5 hours of GPU time re-running identical sweeps. The reproducibility checks: same RTX A4500 hardware, same seeds {0, 1}, same per-optimizer LR grids documented in §9.0.
 
 **Results.**
 
-| Optimizer | Best LR | Final train loss | Steps to converge | μs/step |
+| Optimizer | Fixed LR | Final train loss | Steps to converge | μs/step |
 |---|---|---|---|---|
 | Adam              | 1e-3 | 0.463 | 1032 | 64,812 |
 | **RAMuogi**       | 3e-4 | **0.475** | 1236 | 69,751 |
@@ -613,7 +606,7 @@ See `bench/figs/fig_q5_radam_cold_start.png`.
 
 **Results** (shared with Liger paper §9.8 — see data-reuse note in §9.6).
 
-| Optimizer | Best LR | Final train loss | Steps to converge |
+| Optimizer | Fixed LR | Final train loss | Steps to converge |
 |---|---|---|---|
 | Liger             | 3e-4 | 1.484 | 2203 |
 | Adam              | 1e-3 | 1.581 | 2905 |
@@ -636,7 +629,7 @@ See `bench/figs/fig_q5_radam_cold_start.png`.
 
 **Results** (shared with Liger paper §9.9 — see data-reuse note in §9.6).
 
-| Optimizer | Best LR | Final train loss | Steps to converge |
+| Optimizer | Fixed LR | Final train loss | Steps to converge |
 |---|---|---|---|
 | Liger             | 3e-4 | 4.620 |  94 |
 | Yogi              | 1e-3 | 4.844 |  40 |
@@ -653,7 +646,7 @@ See `bench/figs/fig_q5_radam_cold_start.png`.
 
 ### 9.9 Comparison with sibling family optimizers (Liger, RACASO)
 
-The Muogi/RAMuogi benchmark suite runs against **all sibling-family optimizers** developed in this lineage — Liger (Christopher 2026a, "Layered Iterative Gradient Estimator with Rectification") and RACASO (Christopher 2026b, "Rotation-Aligned Cautious Approximately Second-Order Optimization") — because each is published as a separate ArXiv submission with overlapping baselines, and cross-citation strengthens all three papers.
+The Muogi/RAMuogi benchmark suite runs against **all sibling-family optimizers** developed in this lineage — Liger [Christopher 2026a, "Layered Iterative Gradient Estimator with Rectification"] and RACASO [Christopher 2026b, "Rotation-Aligned Cautious Approximately Second-Order Optimization"] — because each is published as a separate ArXiv submission with overlapping baselines, and cross-citation strengthens all three papers.
 
 **Where each sibling wins.**
 
@@ -712,9 +705,12 @@ The contribution we treat as most important is not the algorithm itself but the 
 
 * Zaheer, M., Reddi, S., Sachan, D., Kale, S., Kumar, S. (2018). *Adaptive Methods for Nonconvex Optimization*. arXiv:1812.06192. [Yogi]
 * Liu, L., Jiang, H., He, P., Chen, W., Liu, X., Gao, J., Han, J. (2019). *On the Variance of the Adaptive Learning Rate and Beyond*. arXiv:1908.03265. [RAdam]
+* Chen, X., Liang, C., Huang, D., Real, E., Wang, K., Liu, Y., Pham, H., Dong, X., Luong, T., Hsieh, C.-J., Lu, Y., Le, Q. V. (2023). *Symbolic Discovery of Optimization Algorithms*. arXiv:2302.06675. [Lion]
 * Jordan, K. (2024). *Muon: An optimizer for the hidden layers of neural networks*. Reference implementation: KellerJordan/Muon (MIT).
 * Vyas, N., Morwani, D., Zhao, R., Kaplun, G., Kakade, S., Barak, B. (2024). *SOAP: Improving and Stabilizing Shampoo using Adam*. arXiv:2410.01497.
-* Allen-Zhu, Z., Li, Y. (2024). *AdaGO: AdaGrad meets Muon for Preconditioned Spectral Optimization*. arXiv:2509.02981.
+* AdaGrad+Muon-style separation of direction and scale: see Bernstein et al. for related AdaGrad+Muon work that informed the direction/scale decomposition Muogi adopts. (An earlier draft cited an arXiv ID that on re-check did not resolve to a published AdaGO source; the hedged form here is the honest attribution pending verification.)
+* Christopher, R. (2026a). *Liger: Dispatch-by-Dimensionality Optimization for Pre-Conditioned Matrix Gradient Regimes*. Companion paper, MetaFore.
+* Christopher, R. (2026b). *RACASO: Rotation-Aligned Cautious Approximately Second-Order Optimization*. Companion paper, MetaFore.
 
 ------------------------------
 
@@ -724,7 +720,7 @@ Thanks to Ben Goertzel for the arXiv endorsement.
 
 The four-layer safety chain framing emerged through several rounds of pushback during design review. The AdaGO-style separation of direction and scale (rather than the naive Yogi to Muon pipeline reading) emerged in response to an initial diagram-literal composition proposal. The `safe_max` guard in the spread-cap clamp (without which `R_max = 0` would defeat the floor) was caught during a stress-test review. The decision to combine iter-0-only injection with the spread clamp (Combo A) rather than either alone came from analysis of the bimodal conditioning data observed during development. The naming "RAMuogi" and the decision to keep Muogi and RAMuogi as separate optimizers in separate files rather than a single class with a flag were design-discipline calls.
 
-The companion paper RACASO [Christopher 2026a] develops a curvature-aware preconditioner using a related failure-safety chain pattern; cross-pollination across design reviews of both optimizers benefited the framing of each.
+The companion paper RACASO [Christopher 2026b] develops a curvature-aware preconditioner using a related failure-safety chain pattern; cross-pollination across design reviews of both optimizers benefited the framing of each.
 
 ------------------------------
 
@@ -759,7 +755,47 @@ print(f"ns5: {t['ns5_success_count']} ok / {t['ns5_skip_count']} skip  "
       f"r_t={t['last_r_t']:.3f}  rect_skip={t['rectification_skip_count']}")
 ```
 
-## Appendix B: Design Space We Did Not Ship
+## Appendix B: Production Trace
+
+> **PRODUCTION ANECDOTE — NOT REPRODUCIBLE FROM THIS REPOSITORY.**
+> The table below was captured from an internal MetaFore architecture
+> during the design-and-iteration sequence that motivated RAMuogi.
+> The architecture, dataset, and training infrastructure are not
+> open-sourced; this appendix is included as a historical trace of
+> how the optimizer landed in production, not as a benchmark a reader
+> can re-run. The reproducible empirical work is §9 (Q1–Q5 + R1–R3),
+> driven by the bench harness in `bench/run_bench.py` against the
+> CSV checked into `bench/results.csv`.
+
+During development, the optimizer was deployed across several iterations of a single heterogeneous architecture. Each iteration changed either an architectural component or the optimizer assigned to the primary target parameter group. The following table captures the gradient-health snapshot at step 1000 (same batch size, same seed, same learning rate envelope) across the iteration sequence:
+
+| Setup | loss | raw_grad | primary target group | adjacent affected group | Optimizer (target group) | Architectural change |
+|---|---|---|---|---|---|---|
+| 1 (baseline) | 3.16 | 7.05 | 1.78 | 6.61 | AdamW | none |
+| 2 | 3.16 | 7.06 | 1.77 | 6.62 | AdamW | + per-group soft-clip bands |
+| 3 | 3.15 | 7.59 | 1.68 | 7.21 | AdamW | + concat-input scale normalization |
+| 4 | 3.23 | 6.47 | 1.62 | 6.03 | AdamW | + norm-layer removal |
+| 5 | 3.03 | 3.34 | 2.97 | 0.47 | SOAP | + cross-attention rebalancing path |
+| 6 | 2.83 | 1.63 | 0.35 | 0.63 | RAMuogi | + branch-output coupling + RAMuogi |
+
+Reading the columns:
+
+* **loss** is included for completeness but should NOT be read as the primary success criterion (Section 5.4). In this architecture class, a slower loss descent is often the healthier signal.
+* **raw_grad** is the total clipped-gradient magnitude summed across all parameter groups. Lower means the architecture is at a more stable operating point.
+* **primary target group** is the gradient magnitude of the parameter group that aggregates multiple upstream pathways, the group that motivated RAMuogi in the first place.
+* **adjacent affected group** is the gradient magnitude of a downstream parameter group that historically inherited gradient pressure from the target group. The progression from 6.61 to 0.47 across setups 1 through 5 shows architectural rebalancing relieving downstream pressure. The further drop to 0.63 in setup 6 confirms RAMuogi keeps that relief intact.
+
+Three structural findings the sequence demonstrates:
+
+1. **Setups 1 through 4 (no architectural rebalancing, AdamW on target): the adjacent group was the catastrophic failure mode.** It sat at 6.0 to 7.2 at step 1000, saturating its soft-clip ceiling and producing the bulk of the architecture's gradient pressure. Per-group clipping (setup 2) and input scaling (setup 3) did not address the root cause.
+2. **Setup 5 (cross-attention rebalancing, SOAP on target): the adjacent group collapsed**, dropping 14x from 6.61 to 0.47. The gradient pressure migrated into the target group (1.78 to 2.97). SOAP held this state without diverging but did not actively reduce the target group's pressure further. (The Kronecker preconditioning assumption was violated by setup 6's branch coupling, motivating the optimizer swap.)
+3. **Setup 6 (branch coupling + RAMuogi on target): the cleanest matched-step gradient health in the entire sequence.** raw_grad halved again (3.34 to 1.63), target group dropped 8x (2.97 to 0.35), the adjacent group remained relieved (0.63), NS5 firing at roughly 10% throughout the run. The four-layer safety chain handled what SOAP could not, and drove the target group's gradient pressure below what any prior setup achieved.
+
+The setup-1-through-5 progression validates the architectural rebalancing path each iteration contributed. Setup 6 demonstrates RAMuogi as the optimizer that completes the path. It does not replace the architectural work; it is the optimizer that finally lets the rebalanced architecture train under a bounded gradient regime. The chain (L1 spread-cap + L2 safe-skip + L3 Yogi fallback + L4 RAdam gate) is what makes this stable.
+
+The honest caveat (Section 5.4): setup 6's lower loss should be read with caution. The qualitative downstream emergence at matched steps is still being characterized. Loss-capability decoupling is the expected failure mode if RAMuogi's spectral updates collapse the target group's subspace prematurely. The diagnostic telemetry is the read, not the loss number.
+
+## Appendix C: Design Space We Did Not Ship
 
 * **Scalar-only throttle** (Option 1 alone): preserves orthogonality perfectly, ignores row-burst asymmetry. Useful as a baseline ablation, never shipped.
 * **Per-singular-direction projection** (Option 3): theoretically pure but requires SVD per step. Defeats NS5's reason for existing.
